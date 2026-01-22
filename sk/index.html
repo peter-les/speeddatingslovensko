@@ -1,56 +1,40 @@
 <!DOCTYPE html>
 <html lang="sk">
 <head>
-  <meta charset="UTF-8">
-  <title>Speed Dating Bratislava</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #4CAF50;
-      color: black;
-      text-align: center;
-    }
+<meta charset="UTF-8">
+<title>Speed Dating Bratislava</title>
+<style>
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #4CAF50;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
 
-    /* HEADER */
-    header {
-      background-color: #000;
-      padding: 15px 0;
-    }
+header, footer {
+  background-color: #000;
+  color: white;
+  padding: 15px 0;
+}
 
-    header a {
-      color: white;
-      text-decoration: none;
-      margin: 0 15px;
-      font-weight: bold;
-    }
+header a, footer a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+}
 
-    header a:hover {
-      text-decoration: underline;
-    }
+header a:hover, footer a:hover {
+  text-decoration: underline;
+}
 
-    /* CONTENT */
-    main {
-      padding: 40px 20px;
-    }
-
-    /* FOOTER */
-    footer {
-      background-color: #000;
-      color: white;
-      padding: 20px;
-      margin-top: 40px;
-    }
-
-    footer a {
-      color: white;
-      text-decoration: none;
-    }
-
-    footer a:hover {
-      text-decoration: underline;
-    }
-  </style>
+main {
+  flex: 1;
+  padding: 30px;
+}
+</style>
 </head>
 
 <body>
@@ -63,13 +47,13 @@
 </header>
 
 <main>
-  <h1>NAJLACNEJŠÍ SPEED DATING V BRATISLAVE</h1>
-  <p>Osobné zoznamovanie v príjemnej atmosfére.</p>
+  <h1>Najlacnejší speed dating v Bratislave</h1>
+  <p>Osobné zoznamovacie večery pre rôzne vekové kategórie.</p>
 </main>
 
 <footer>
-  <p>Kontakt: <a href="mailto:bratislavaspeeddating@gmail.com">bratislavaspeeddating@gmail.com</a></p>
   <p>
+    Kontakt: <a href="mailto:bratislavaspeeddating@gmail.com">bratislavaspeeddating@gmail.com</a><br>
     <a href="OBCHODNE_PODMIENKY.html">Obchodné podmienky</a> |
     <a href="OCHRANA_OSOBNYCH_UDAJOV.html">Ochrana osobných údajov</a>
   </p>
