@@ -21,7 +21,7 @@
     a:hover {
       text-decoration: underline;
     }
-    nav, .top-bar, .bottom-bar {
+    .top-bar, .bottom-bar {
       background-color: black;
       color: white;
       padding: 10px;
@@ -80,11 +80,9 @@
       appId: "TVOJ_APP_ID"
     };
 
-    // Inicializácia Firebase
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // Funkcia na aktualizáciu počítadla voľných miest
     function updateFreeSpots(group) {
       const spotsRef = db.ref('events/' + group + '/freeSpots');
       spotsRef.on('value', (snapshot) => {
@@ -93,7 +91,6 @@
       });
     }
 
-    // Funkcia na registráciu účastníka
     function registerParticipant(group) {
       const name = document.getElementById(group + '-name').value;
       const age = document.getElementById(group + '-age').value;
@@ -112,7 +109,6 @@
         timestamp: Date.now()
       });
 
-      // Zníženie voľných miest
       const spotsRef = db.ref('events/' + group + '/freeSpots');
       spotsRef.transaction((current) => {
         if (current > 0) return current - 1;
@@ -121,10 +117,9 @@
 
       alert("Registrácia prebehla úspešne!");
       document.getElementById(group + '-form').reset();
-      return false; // zabránime reloadu stránky
+      return false;
     }
 
-    // Inicializácia počítadiel
     window.onload = function() {
       updateFreeSpots('group1');
       updateFreeSpots('group2');
@@ -138,9 +133,7 @@
   <a href="index.html">Domov</a> |
   <a href="AKO_TO_PREBIEHA.html">Ako to prebieha</a> |
   <a href="TERMINY.html">Termíny</a> |
-  <a href="O_NAS.html">O nás</a> |
-  <a href="OBCHODNE_PODMIENKY.html">Obchodné podmienky</a> |
-  <a href="OCHRANA_OSOBNYCH_UDAJOV.html">Ochrana osobných údajov</a>
+  <a href="O_NAS.html">O nás</a>
 </div>
 <hr>
 
