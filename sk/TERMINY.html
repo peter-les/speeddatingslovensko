@@ -49,7 +49,7 @@
       text-align: center;
       min-width: 250px;
     }
-    button {
+    button, form input[type="submit"] {
       margin-top: 10px;
       padding: 10px 15px;
       font-size: 1em;
@@ -63,11 +63,6 @@
       padding: 5px;
       margin: 5px 0;
       width: 90%;
-    }
-    form input[type="submit"] {
-      padding: 10px 15px;
-      font-size: 1em;
-      cursor: pointer;
     }
   </style>
 </head>
@@ -152,9 +147,9 @@
 <footer>
   <p>
     Kontakt:
-    <a href="mailto:bratislavaspeeddating@gmail.com">bratislavaspeeddating@gmail.com</a><br>
-    <a href="OBCHODNE_PODMIENKY.html">Obchodné podmienky</a> |
-    <a href="OCHRANA_OSOBNYCH_UDAJOV.html">Ochrana osobných údajov</a>
+    <a href="mailto:bratislavaspeeddating@gmail.com" style="color:white;">bratislavaspeeddating@gmail.com</a><br>
+    <a href="OBCHODNE_PODMIENKY.html" style="color:white;">Obchodné podmienky</a> |
+    <a href="OCHRANA_OSOBNYCH_UDAJOV.html" style="color:white;">Ochrana osobných údajov</a>
   </p>
 </footer>
 
@@ -172,15 +167,15 @@
   firebase.initializeApp(firebaseConfig);
   const db = firebase.database();
 
-  // Funkcia na načítanie voľných miest
+  // Funkcia na načítanie voľných miest s fallback hodnotou 8
   function loadSeats() {
     db.ref('volne_miesta_26_36').once('value').then(snapshot => {
-      const data = snapshot.val();
+      const data = snapshot.val() || { muzi: 8, zeny: 8 };
       document.getElementById('free_men_26_36').textContent = data.muzi;
       document.getElementById('free_women_26_36').textContent = data.zeny;
     });
     db.ref('volne_miesta_36_46').once('value').then(snapshot => {
-      const data = snapshot.val();
+      const data = snapshot.val() || { muzi: 8, zeny: 8 };
       document.getElementById('free_men_36_46').textContent = data.muzi;
       document.getElementById('free_women_36_46').textContent = data.zeny;
     });
@@ -199,13 +194,11 @@
 
       const seatRef = db.ref('volne_miesta_' + groupKey);
       seatRef.once('value').then(snapshot => {
-        const seats = snapshot.val();
+        const seats = snapshot.val() || { muzi: 8, zeny: 8 };
         if(seats[gender] > 0){
-          // Zníž voľné miesta
           seats[gender]--;
           seatRef.set(seats);
 
-          // Ulož registráciu
           const regRef = db.ref('registracie_' + groupKey);
           const newReg = regRef.push();
           newReg.set({name: name, age: age, gender: gender});
