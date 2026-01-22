@@ -2,8 +2,10 @@
 <html lang="sk">
 <head>
   <meta charset="UTF-8">
-  <title>TERMÍNY</title>
-  <!-- CSS -->
+  <title>TERMINY - Speed Dating Bratislava</title>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
   <style>
     body {
       background-color: #4CAF50;
@@ -12,216 +14,214 @@
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
-    h1, h2, p, ul, li {
-      text-align: center;
+    header, footer {
+      background-color: #000000;
+      color: white;
+      padding: 10px;
     }
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-    a {
-      color: blue;
-      text-decoration: none;
+    header a, footer a {
+      color: white;
       margin: 0 10px;
+      text-decoration: none;
     }
-    a:hover {
+    header a:hover, footer a:hover {
       text-decoration: underline;
     }
-    nav {
-      text-align: center;
-      margin: 20px 0;
+    main {
+      flex: 1;
+      padding: 20px;
     }
-    img {
-      width: 200px;
-      height: auto;
-      display: block;
-      margin: 20px auto;
-      border-radius: 10px;
-    }
-    .footer {
-      background-color: black;
-      color: white;
-      padding: 10px 0;
-      position: relative;
-      bottom: 0;
-      width: 100%;
-    }
-    .footer a {
-      color: white;
-      text-decoration: none;
-      margin: 0 10px;
+    .flex-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 40px;
+      margin-bottom: 40px;
     }
     .column {
-      text-align: center;
-      flex: 0 0 auto;
-      margin: 0 20px;
       background-color: #4CAF50;
-      padding: 10px;
+      padding: 20px;
       border-radius: 10px;
+      text-align: center;
+      min-width: 250px;
     }
-    .free-spots {
+    button {
+      margin-top: 10px;
+      padding: 10px 15px;
+      font-size: 1em;
+      cursor: pointer;
+    }
+    .counter {
       font-weight: bold;
-      font-size: 1.1em;
-      margin: 10px 0;
+      margin-bottom: 10px;
+    }
+    form input[type="text"], form input[type="number"], form select {
+      padding: 5px;
+      margin: 5px 0;
+      width: 90%;
+    }
+    form input[type="submit"] {
+      padding: 10px 15px;
+      font-size: 1em;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
+<header>
+  <a href="index.html">Domov</a> |
+  <a href="AKO_TO_PREBIEHA.html">Ako to prebieha</a> |
+  <a href="TERMINY.html">Termíny</a> |
+  <a href="O_NAS.html">O nás</a>
+</header>
 
-<!-- Horná lišta -->
-<div style="text-align:right; background-color:black; color:white; padding:5px;">
-  <a href="index.html" style="color:white;">Domov</a> |
-  <a href="AKO_TO_PREBIEHA.html" style="color:white;">Ako to prebieha?</a> |
-  <a href="TERMINY.html" style="color:white;">Termíny</a> |
-  <a href="O_NAS.html" style="color:white;">O nás</a>
-</div>
-<hr>
+<main>
+  <h1>Nasledujúce termíny speed dating</h1>
 
-<h1>NASLEDUJÚCE TERMÍNY:</h1>
+  <div class="flex-container">
 
-<div style="display: flex; justify-content: center; flex-wrap: wrap;">
+    <!-- 26-36 rokov -->
+    <div class="column" id="group26_36">
+      <h2>Veková skupina 26-36 rokov (piatok večer)</h2>
+      <div class="counter">
+        Muži voľné miesta: <span id="free_men_26_36">0</span><br>
+        Ženy voľné miesta: <span id="free_women_26_36">0</span>
+      </div>
+      <ul>
+        <li>
+          <strong>Dátum:</strong> ...<br>
+          <strong>Čas:</strong> 18:00 - 19:00<br>
+          <strong>Adresa:</strong> ...<br>
+          <strong>Mesto:</strong> Bratislava
+        </li>
+      </ul>
 
-  <!-- 26-36 rokov -->
-  <div class="column">
-    <h2>Veková skupina 26-36 rokov (PIATKY VEČER)</h2>
-    <ul>
-      <li>
-        <strong>Dátum:</strong> ...<br>
-        <strong>Čas:</strong> 18:00 - 19:00<br>
-        <strong>Adresa:</strong> ...<br>
-        <strong>Mesto:</strong> Bratislava
-      </li>
-    </ul>
-    <div class="free-spots">
-      Ženy voľné miesta: <span id="freeWomen26_36">0</span><br>
-      Muži voľné miesta: <span id="freeMen26_36">0</span>
+      <form id="form26_36">
+        <input type="text" name="name" placeholder="Krstné meno" required><br>
+        <input type="number" name="age" placeholder="Vek" required><br>
+        <select name="gender" required>
+          <option value="">Pohlavie</option>
+          <option value="muzi">Muž</option>
+          <option value="zeny">Žena</option>
+        </select><br>
+        <input type="submit" value="Registrovať">
+      </form>
+
+      <a id="payment_26_36_men" href="https://buy.stripe.com/test_7sY9AS2ObfKh2mH2Crc7u00" target="_blank">Platba muži</a>
+      <br>
+      <span>Ženy zdarma</span>
     </div>
-    <!-- Stripe linky -->
-    <p>
-      <a href="https://buy.stripe.com/test_7sY9AS2ObfKh2mH2Crc7u00" target="_blank">
-        Muži platia 9,90 €
-      </a><br>
-      <span style="color:green;">Ženy platia 0 €</span>
-    </p>
-    <!-- Registrácia -->
-    <p><strong>Registrácia:</strong></p>
-    <form id="form26_36">
-      Meno: <input type="text" name="name" required><br>
-      Vek: <input type="number" name="age" required><br>
-      Pohlavie: 
-      <select name="gender">
-        <option value="woman">Žena</option>
-        <option value="man">Muž</option>
-      </select><br>
-      <button type="submit">Odoslať</button>
-    </form>
-  </div>
 
-  <!-- 36-46 rokov -->
-  <div class="column">
-    <h2>Veková skupina 36-46 rokov (SOBOTY VEČER)</h2>
-    <ul>
-      <li>
-        <strong>Dátum:</strong> ...<br>
-        <strong>Čas:</strong> 18:00 - 19:00<br>
-        <strong>Adresa:</strong> ...<br>
-        <strong>Mesto:</strong> Bratislava
-      </li>
-    </ul>
-    <div class="free-spots">
-      Ženy voľné miesta: <span id="freeWomen36_46">0</span><br>
-      Muži voľné miesta: <span id="freeMen36_46">0</span>
+    <!-- 36-46 rokov -->
+    <div class="column" id="group36_46">
+      <h2>Veková skupina 36-46 rokov (sobota večer)</h2>
+      <div class="counter">
+        Muži voľné miesta: <span id="free_men_36_46">0</span><br>
+        Ženy voľné miesta: <span id="free_women_36_46">0</span>
+      </div>
+      <ul>
+        <li>
+          <strong>Dátum:</strong> ...<br>
+          <strong>Čas:</strong> 18:00 - 19:00<br>
+          <strong>Adresa:</strong> ...<br>
+          <strong>Mesto:</strong> Bratislava
+        </li>
+      </ul>
+
+      <form id="form36_46">
+        <input type="text" name="name" placeholder="Krstné meno" required><br>
+        <input type="number" name="age" placeholder="Vek" required><br>
+        <select name="gender" required>
+          <option value="">Pohlavie</option>
+          <option value="muzi">Muž</option>
+          <option value="zeny">Žena</option>
+        </select><br>
+        <input type="submit" value="Registrovať">
+      </form>
+
+      <a id="payment_36_46" href="https://buy.stripe.com/test_7sY9AS2ObfKh2Crc7u00" target="_blank">Platba muži aj ženy</a>
     </div>
-    <!-- Stripe linky -->
-    <p>
-      <a href="https://buy.stripe.com/test_7sY9AS2ObfKh2mH2Crc7u00" target="_blank">
-        Ženy aj muži platia 9,90 €
-      </a>
-    </p>
-    <!-- Registrácia -->
-    <p><strong>Registrácia:</strong></p>
-    <form id="form36_46">
-      Meno: <input type="text" name="name" required><br>
-      Vek: <input type="number" name="age" required><br>
-      Pohlavie: 
-      <select name="gender">
-        <option value="woman">Žena</option>
-        <option value="man">Muž</option>
-      </select><br>
-      <button type="submit">Odoslať</button>
-    </form>
+
   </div>
+</main>
 
-</div>
+<footer>
+  <p>
+    Kontakt:
+    <a href="mailto:bratislavaspeeddating@gmail.com">bratislavaspeeddating@gmail.com</a><br>
+    <a href="OBCHODNE_PODMIENKY.html">Obchodné podmienky</a> |
+    <a href="OCHRANA_OSOBNYCH_UDAJOV.html">Ochrana osobných údajov</a>
+  </p>
+</footer>
 
-<p>
-  <a href="index.html">Naspäť</a>
-</p>
-
-<!-- Footer -->
-<div class="footer">
-  Kontakt:
-  <a href="mailto:bratislavaspeeddating@gmail.com">bratislavaspeeddating@gmail.com</a> |
-  <a href="OBCHODNE_PODMIENKY.html">Obchodné podmienky</a> |
-  <a href="OCHRANA_OSOBNYCH_UDAJOV.html">Ochrana osobných údajov</a>
-</div>
-
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script>
-  // TU DOPLŇ SVOJ firebaseConfig
+  // Firebase config
   const firebaseConfig = {
     apiKey: "TU_DAS_API_KEY",
-    authDomain: "TU_DAS_PROJECT_ID.firebaseapp.com",
-    databaseURL: "https://TU_DAS_PROJECT_ID-default-rtdb.europe-west1.firebasedatabase.app",
+    authDomain: "TU_DAS_AUTH_DOMAIN",
+    databaseURL: "TU_DAS_DATABASE_URL",
     projectId: "TU_DAS_PROJECT_ID",
-    storageBucket: "TU_DAS_PROJECT_ID.appspot.com",
+    storageBucket: "TU_DAS_BUCKET",
     messagingSenderId: "TU_DAS_SENDER_ID",
     appId: "TU_DAS_APP_ID"
   };
-
   firebase.initializeApp(firebaseConfig);
   const db = firebase.database();
 
-  // Funkcia na update počtu voľných miest
-  function updateFreeSpots() {
-    db.ref("freeSpots").on("value", (snapshot) => {
-      const data = snapshot.val() || {};
-      document.getElementById("freeWomen26_36").textContent = data.women26_36 || 0;
-      document.getElementById("freeMen26_36").textContent = data.men26_36 || 0;
-      document.getElementById("freeWomen36_46").textContent = data.women36_46 || 0;
-      document.getElementById("freeMen36_46").textContent = data.men36_46 || 0;
+  // Funkcia na načítanie voľných miest
+  function loadSeats() {
+    db.ref('volne_miesta_26_36').once('value').then(snapshot => {
+      const data = snapshot.val();
+      document.getElementById('free_men_26_36').textContent = data.muzi;
+      document.getElementById('free_women_26_36').textContent = data.zeny;
+    });
+    db.ref('volne_miesta_36_46').once('value').then(snapshot => {
+      const data = snapshot.val();
+      document.getElementById('free_men_36_46').textContent = data.muzi;
+      document.getElementById('free_women_36_46').textContent = data.zeny;
     });
   }
 
-  updateFreeSpots();
+  loadSeats();
 
-  // Registrácia
-  document.getElementById("form26_36").addEventListener("submit", function(e){
-    e.preventDefault();
-    const name = this.name.value;
-    const age = this.age.value;
-    const gender = this.gender.value;
-    const path = gender === "woman" ? "women26_36" : "men26_36";
-    db.ref("freeSpots/" + path).transaction(function(current){
-      return (current || 0) + 1;
-    });
-    this.reset();
-  });
+  // Formulár registrácie
+  function setupForm(formId, groupKey) {
+    document.getElementById(formId).addEventListener('submit', function(e){
+      e.preventDefault();
+      const name = this.name.value;
+      const age = parseInt(this.age.value);
+      const gender = this.gender.value;
+      if(!name || !age || !gender) return;
 
-  document.getElementById("form36_46").addEventListener("submit", function(e){
-    e.preventDefault();
-    const name = this.name.value;
-    const age = this.age.value;
-    const gender = this.gender.value;
-    const path = gender === "woman" ? "women36_46" : "men36_46";
-    db.ref("freeSpots/" + path).transaction(function(current){
-      return (current || 0) + 1;
+      const seatRef = db.ref('volne_miesta_' + groupKey);
+      seatRef.once('value').then(snapshot => {
+        const seats = snapshot.val();
+        if(seats[gender] > 0){
+          // Zníž voľné miesta
+          seats[gender]--;
+          seatRef.set(seats);
+
+          // Ulož registráciu
+          const regRef = db.ref('registracie_' + groupKey);
+          const newReg = regRef.push();
+          newReg.set({name: name, age: age, gender: gender});
+
+          alert("Registrácia úspešná!");
+          loadSeats();
+        } else {
+          alert("Už nie sú voľné miesta pre " + gender);
+        }
+      });
+      this.reset();
     });
-    this.reset();
-  });
+  }
+
+  setupForm('form26_36', '26_36');
+  setupForm('form36_46', '36_46');
 </script>
 
 </body>
