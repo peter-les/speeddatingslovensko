@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>TERMINY - Speed Dating Bratislava</title>
-
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
@@ -20,7 +19,7 @@
       flex-direction: column;
     }
     header, footer {
-      background-color: black;
+      background-color: #000000;
       color: white;
       padding: 10px;
     }
@@ -29,6 +28,9 @@
       margin: 0 10px;
       text-decoration: none;
     }
+    header a:hover, footer a:hover {
+      text-decoration: underline;
+    }
     main {
       flex: 1;
       padding: 20px;
@@ -36,26 +38,35 @@
     .flex-container {
       display: flex;
       justify-content: center;
-      gap: 40px;
       flex-wrap: wrap;
+      gap: 40px;
+      margin-bottom: 40px;
     }
     .column {
-      min-width: 280px;
+      background-color: #4CAF50;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      min-width: 250px;
     }
-    input, select, button {
-      margin: 5px;
-      padding: 8px;
-      width: 90%;
+    button, form input[type="submit"] {
+      margin-top: 10px;
+      padding: 10px 15px;
+      font-size: 1em;
+      cursor: pointer;
     }
     .counter {
       font-weight: bold;
       margin-bottom: 10px;
     }
+    form input[type="text"], form input[type="number"], form select {
+      padding: 5px;
+      margin: 5px 0;
+      width: 90%;
+    }
   </style>
 </head>
-
 <body>
-
 <header>
   <a href="index.html">Domov</a> |
   <a href="AKO_TO_PREBIEHA.html">Ako to prebieha</a> |
@@ -64,150 +75,130 @@
 </header>
 
 <main>
-<h1>Nasledujúce termíny</h1>
+  <h1>Nasledujúce termíny speed dating</h1>
 
-<div class="flex-container">
+  <div class="flex-container">
 
-<!-- 26–36 -->
-<div class="column">
-<h2>26–36 rokov (piatok)</h2>
+    <!-- 26-36 rokov -->
+    <div class="column" id="group26_36">
+      <h2>Veková skupina 26-36 rokov (piatok večer)</h2>
+      <div class="counter">
+        Muži voľné miesta: <span id="free_men_26_36">0</span><br>
+        Ženy voľné miesta: <span id="free_women_26_36">0</span>
+      </div>
+      <ul>
+        <li>
+          <strong>Dátum:</strong> ...<br>
+          <strong>Čas:</strong> 18:00 - 19:00<br>
+          <strong>Adresa:</strong> ...<br>
+          <strong>Mesto:</strong> Bratislava
+        </li>
+      </ul>
 
-<div class="counter">
-Muži: <span id="m2636">0</span><br>
-Ženy: <span id="z2636">0</span>
-</div>
+      <form id="form26_36">
+        <input type="text" name="name" placeholder="Krstné meno" required><br>
+        <input type="number" name="age" placeholder="Vek" required><br>
+        <select name="gender" required>
+          <option value="">Pohlavie</option>
+          <option value="muzi">Muž</option>
+          <option value="zeny">Žena</option>
+        </select><br>
+        <input type="submit" value="Registrovať (iba po zaplatení)">
+      </form>
 
-<ul>
-<li>
-<strong>Dátum:</strong> ...<br>
-<strong>Čas:</strong> 18:00 – 19:00<br>
-<strong>Adresa:</strong> ...<br>
-<strong>Mesto:</strong> Bratislava
-</li>
-</ul>
+      <a id="payment_26_36_men" href="https://buy.stripe.com/test_7sY9AS2ObfKh2mH2Crc7u00" target="_blank">Platba muži 9,9 €</a>
+      <br>
+      <a id="payment_26_36_women" href="TU_VLOZIT_LINK_3_9" target="_blank">Platba ženy 3,9 €</a>
+    </div>
 
-<input id="name2636" placeholder="Krstné meno">
-<input id="age2636" type="number" placeholder="Vek">
-<select id="gender2636">
-  <option value="">Pohlavie</option>
-  <option value="muzi">Muž</option>
-  <option value="zeny">Žena</option>
-</select>
+    <!-- 36-46 rokov -->
+    <div class="column" id="group36_46">
+      <h2>Veková skupina 36-46 rokov (sobota večer)</h2>
+      <div class="counter">
+        Muži voľné miesta: <span id="free_men_36_46">0</span><br>
+        Ženy voľné miesta: <span id="free_women_36_46">0</span>
+      </div>
+      <ul>
+        <li>
+          <strong>Dátum:</strong> ...<br>
+          <strong>Čas:</strong> 18:00 - 19:00<br>
+          <strong>Adresa:</strong> ...<br>
+          <strong>Mesto:</strong> Bratislava
+        </li>
+      </ul>
 
-<button onclick="pay2636()">Pokračovať na platbu</button>
-</div>
+      <form id="form36_46">
+        <input type="text" name="name" placeholder="Krstné meno" required><br>
+        <input type="number" name="age" placeholder="Vek" required><br>
+        <select name="gender" required>
+          <option value="">Pohlavie</option>
+          <option value="muzi">Muž</option>
+          <option value="zeny">Žena</option>
+        </select><br>
+        <input type="submit" value="Registrovať (iba po zaplatení)">
+      </form>
 
-<!-- 36–46 -->
-<div class="column">
-<h2>36–46 rokov (sobota)</h2>
+      <a id="payment_36_46" href="https://buy.stripe.com/test_dRm6oGewTeGdaTdfpdc7u01" target="_blank">Platba muži aj ženy 9,9 €</a>
+    </div>
 
-<div class="counter">
-Muži: <span id="m3646">0</span><br>
-Ženy: <span id="z3646">0</span>
-</div>
-
-<ul>
-<li>
-<strong>Dátum:</strong> ...<br>
-<strong>Čas:</strong> 18:00 – 19:00<br>
-<strong>Adresa:</strong> ...<br>
-<strong>Mesto:</strong> Bratislava
-</li>
-</ul>
-
-<input id="name3646" placeholder="Krstné meno">
-<input id="age3646" type="number" placeholder="Vek">
-<select id="gender3646">
-  <option value="">Pohlavie</option>
-  <option value="muzi">Muž</option>
-  <option value="zeny">Žena</option>
-</select>
-
-<button onclick="pay3646()">Pokračovať na platbu</button>
-</div>
-
-</div>
+  </div>
 </main>
 
 <footer>
-<p>
-<a href="mailto:bratislavaspeeddating@gmail.com" style="color:white;">bratislavaspeeddating@gmail.com</a><br>
-<a href="OBCHODNE_PODMIENKY.html" style="color:white;">Obchodné podmienky</a> |
-<a href="OCHRANA_OSOBNYCH_UDAJOV.html" style="color:white;">Ochrana osobných údajov</a>
-</p>
+  <p>
+    Kontakt:
+    <a href="mailto:bratislavaspeeddating@gmail.com" style="color:white;">bratislavaspeeddating@gmail.com</a><br>
+    <a href="OBCHODNE_PODMIENKY.html" style="color:white;">Obchodné podmienky</a> |
+    <a href="OCHRANA_OSOBNYCH_UDAJOV.html" style="color:white;">Ochrana osobných údajov</a>
+  </p>
 </footer>
 
 <script>
-/* FIREBASE */
-firebase.initializeApp({
-  apiKey: "AIzaSyBWuOkOK_ViW3Byns3h5LdZ5NFrPjSo_jM",
-  authDomain: "speeddatingslovakia.firebaseapp.com",
-  databaseURL: "https://speeddatingslovakia-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "speeddatingslovakia"
-});
-const db = firebase.database();
+  const firebaseConfig = {
+    apiKey: "TU_DAS_API_KEY",
+    authDomain: "TU_DAS_AUTH_DOMAIN",
+    databaseURL: "TU_DAS_DATABASE_URL",
+    projectId: "TU_DAS_PROJECT_ID",
+    storageBucket: "TU_DAS_BUCKET",
+    messagingSenderId: "TU_DAS_SENDER_ID",
+    appId: "TU_DAS_APP_ID"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
 
-/* LIVE COUNTERS */
-db.ref("volne_miesta_26_36").on("value", s=>{
-  document.getElementById("m2636").textContent = s.val().muzi;
-  document.getElementById("z2636").textContent = s.val().zeny;
-});
-db.ref("volne_miesta_36_46").on("value", s=>{
-  document.getElementById("m3646").textContent = s.val().muzi;
-  document.getElementById("z3646").textContent = s.val().zeny;
-});
+  // Zobrazenie voľných miest
+  function loadSeats() {
+    db.ref('volne_miesta_26_36').once('value').then(snapshot => {
+      const data = snapshot.val() || { muzi: 8, zeny: 8 };
+      document.getElementById('free_men_26_36').textContent = data.muzi;
+      document.getElementById('free_women_26_36').textContent = data.zeny;
+    });
+    db.ref('volne_miesta_36_46').once('value').then(snapshot => {
+      const data = snapshot.val() || { muzi: 8, zeny: 8 };
+      document.getElementById('free_men_36_46').textContent = data.muzi;
+      document.getElementById('free_women_36_46').textContent = data.zeny;
+    });
+  }
 
-/* PAYMENT FLOWS */
-function pay2636(){
-  startPayment(
-    "26_36",
-    document.getElementById("name2636").value,
-    document.getElementById("age2636").value,
-    document.getElementById("gender2636").value,
-    g => g==="muzi"
-      ? "https://buy.stripe.com/test_7sY9AS2ObfKh2mH2Crc7u00"
-      : "https://buy.stripe.com/test_4gMfZgbkHapXgdxa4Tc7u02"
-  );
-}
+  loadSeats();
 
-function pay3646(){
-  startPayment(
-    "36_46",
-    document.getElementById("name3646").value,
-    document.getElementById("age3646").value,
-    document.getElementById("gender3646").value,
-    ()=>"https://buy.stripe.com/test_dRm6oGewTeGdaTdfpdc7u01"
-  );
-}
+  // Registrácia po zaplatení
+  function setupForm(formId, groupKey, gender) {
+    document.getElementById(formId).addEventListener('submit', function(e){
+      e.preventDefault();
+      const name = this.name.value;
+      const age = parseInt(this.age.value);
+      const selectedGender = this.gender.value;
+      if(!name || !age || !selectedGender) return;
 
-function startPayment(group,name,age,gender,getLink){
-  if(!name||!age||!gender){ alert("Vyplň všetky údaje"); return; }
+      alert("Najprv je potrebné zaplatiť cez príslušný Stripe link.");
+      // Po zaplatení Stripe webhookom zníži počet voľných miest
+      this.reset();
+    });
+  }
 
-  localStorage.setItem("reg",JSON.stringify({group,name,age,gender}));
-
-  const win = window.open(getLink(gender),"_blank");
-  const timer=setInterval(()=>{
-    if(win.closed){
-      clearInterval(timer);
-      finishRegistration();
-    }
-  },500);
-}
-
-function finishRegistration(){
-  const r = JSON.parse(localStorage.getItem("reg"));
-  const ref = db.ref("volne_miesta_"+r.group);
-  ref.once("value").then(s=>{
-    const d=s.val();
-    if(d[r.gender]>0){
-      d[r.gender]--;
-      ref.set(d);
-      db.ref("registracie_"+r.group).push({...r,time:Date.now()});
-      alert("Registrácia úspešná!");
-    } else alert("Už nie sú voľné miesta.");
-  });
-}
+  setupForm('form26_36', '26_36');
+  setupForm('form36_46', '36_46');
 </script>
-
 </body>
 </html>
