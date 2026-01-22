@@ -1,16 +1,32 @@
 <!DOCTYPE html>
 <html lang="sk">
 <head>
-  <meta charset="UTF-8">
-  <title>Ako to prebieha</title>
-  <style>
-    body { margin:0; font-family:Arial; background:#4CAF50; text-align:center; }
-    header, footer { background:#000; color:#fff; padding:15px; }
-    header a, footer a { color:white; margin:0 10px; text-decoration:none; }
-    main { padding:40px; }
-    ul { max-width:800px; margin:0 auto; text-align:left; }
-  </style>
+<meta charset="UTF-8">
+<title>Ako to prebieha</title>
+<style>
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #4CAF50;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+header, footer {
+  background-color: #000;
+  color: white;
+  padding: 15px 0;
+}
+header a, footer a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+}
+main { flex: 1; padding: 30px; }
+</style>
 </head>
+
 <body>
 
 <header>
@@ -21,18 +37,18 @@
 </header>
 
 <main>
-<h1>Ako prebieha speed dating</h1>
-
-<ul>
-  <li>Osobné stretnutia medzi mužmi a ženami.</li>
-  <li>Krátke rozhovory v dvojiciach (cca 6 minút).</li>
-  <li>Po každom kole sa muži presúvajú.</li>
-  <li>Na konci vyplníte, s kým si želáte kontakt.</li>
-</ul>
+  <h1>Ako prebieha speed dating</h1>
+  <p>Každý účastník sa postupne zoznamuje so všetkými osobami opačného pohlavia.</p>
+  <p>Rozhovory trvajú približne 6 minút.</p>
+  <p>Po skončení večera sú kontakty vymenené len pri vzájomnej zhode.</p>
 </main>
 
 <footer>
-  <p>Kontakt: bratislavaspeeddating@gmail.com</p>
+  <p>
+    Kontakt: <a href="mailto:bratislavaspeeddating@gmail.com">bratislavaspeeddating@gmail.com</a><br>
+    <a href="OBCHODNE_PODMIENKY.html">Obchodné podmienky</a> |
+    <a href="OCHRANA_OSOBNYCH_UDAJOV.html">Ochrana osobných údajov</a>
+  </p>
 </footer>
 
 </body>
