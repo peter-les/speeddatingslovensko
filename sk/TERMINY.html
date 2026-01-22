@@ -95,20 +95,8 @@
         </li>
       </ul>
 
-      <form id="form26_36">
-        <input type="text" name="name" placeholder="Krstné meno" required><br>
-        <input type="number" name="age" placeholder="Vek" required><br>
-        <select name="gender" required>
-          <option value="">Pohlavie</option>
-          <option value="muzi">Muž</option>
-          <option value="zeny">Žena</option>
-        </select><br>
-        <input type="submit" value="Registrovať">
-      </form>
-
-      <a id="payment_26_36_men" href="https://buy.stripe.com/test_7sY9AS2ObfKh2mH2Crc7u00" target="_blank">Platba muži</a>
-      <br>
-      <span>Ženy zdarma</span>
+      <a id="payment_26_36_men" href="https://buy.stripe.com/test_7sY9AS2ObfKh2mH2Crc7u00" target="_blank">Platba muži 9,90 €</a><br>
+      <a id="payment_26_36_women" href="TU_DAS_STRIPE_LINK_3_90" target="_blank">Platba ženy 3,90 €</a>
     </div>
 
     <!-- 36-46 rokov -->
@@ -127,18 +115,7 @@
         </li>
       </ul>
 
-      <form id="form36_46">
-        <input type="text" name="name" placeholder="Krstné meno" required><br>
-        <input type="number" name="age" placeholder="Vek" required><br>
-        <select name="gender" required>
-          <option value="">Pohlavie</option>
-          <option value="muzi">Muž</option>
-          <option value="zeny">Žena</option>
-        </select><br>
-        <input type="submit" value="Registrovať">
-      </form>
-
-      <a id="payment_36_46" href="https://buy.stripe.com/test_dRm6oGewTeGdaTdfpdc7u01" target="_blank">Platba muži aj ženy</a>
+      <a id="payment_36_46" href="https://buy.stripe.com/test_dRm6oGewTeGdaTdfpdc7u01" target="_blank">Platba muži aj ženy 9,90 €</a>
     </div>
 
   </div>
@@ -158,7 +135,7 @@
   const firebaseConfig = {
     apiKey: "AIzaSyBWuOkOK_ViW3Byns3h5LdZ5NFrPjSo_jM",
     authDomain: "speeddatingslovakia.firebaseapp.com",
-    databaseURL: "https://speeddatingslovakia-default-rtdb.europe-west1.firebasedatabase.app/",
+    databaseURL: "https://speeddatingslovakia-default-rtdb.europe-west1.firebasedatabase.app",
     projectId: "speeddatingslovakia",
     storageBucket: "speeddatingslovakia.firebasestorage.app",
     messagingSenderId: "1085212330025",
@@ -167,55 +144,56 @@
   firebase.initializeApp(firebaseConfig);
   const db = firebase.database();
 
-  // Funkcia na načítanie voľných miest naživo
-function listenSeats() {
-  db.ref('volne_miesta_26_36').on('value', snapshot => {
-    const data = snapshot.val() || { muzi: 8, zeny: 8 };
-    document.getElementById('free_men_26_36').textContent = data.muzi;
-    document.getElementById('free_women_26_36').textContent = data.zeny;
-  });
+  // Počty voľných miest
+  const defaultSeats = {
+    "26_36": { muzi: 8, zeny: 8 },
+    "36_46": { muzi: 8, zeny: 8 }
+  };
 
-  db.ref('volne_miesta_36_46').on('value', snapshot => {
-    const data = snapshot.val() || { muzi: 8, zeny: 8 };
-    document.getElementById('free_men_36_46').textContent = data.muzi;
-    document.getElementById('free_women_36_46').textContent = data.zeny;
-  });
-}
-
-listenSeats();
-
-  // Formulár registrácie
-  function setupForm(formId, groupKey) {
-    document.getElementById(formId).addEventListener('submit', function(e){
-      e.preventDefault();
-      const name = this.name.value;
-      const age = parseInt(this.age.value);
-      const gender = this.gender.value;
-      if(!name || !age || !gender) return;
-
-      const seatRef = db.ref('volne_miesta_' + groupKey);
-      seatRef.once('value').then(snapshot => {
-        const seats = snapshot.val() || { muzi: 8, zeny: 8 };
-        if(seats[gender] > 0){
-          seats[gender]--;
-          seatRef.set(seats);
-
-          const regRef = db.ref('registracie_' + groupKey);
-          const newReg = regRef.push();
-          newReg.set({name: name, age: age, gender: gender});
-
-          alert("Registrácia úspešná!");
-          loadSeats();
-        } else {
-          alert("Už nie sú voľné miesta pre " + gender);
-        }
-      });
-      this.reset();
+  function listenSeats() {
+    db.ref('volne_miesta_26_36').on('value', snapshot => {
+      const data = snapshot.val() || defaultSeats["26_36"];
+      document.getElementById('free_men_26_36').textContent = data.muzi;
+      document.getElementById('free_women_26_36').textContent = data.zeny;
+    });
+    db.ref('volne_miesta_36_46').on('value', snapshot => {
+      const data = snapshot.val() || defaultSeats["36_46"];
+      document.getElementById('free_men_36_46').textContent = data.muzi;
+      document.getElementById('free_women_36_46').textContent = data.zeny;
     });
   }
 
-  setupForm('form26_36', '26_36');
-  setupForm('form36_46', '36_46');
+  listenSeats();
+
+  // Registrácia len po platbe
+  function setupPaymentLink(linkId, groupKey, gender) {
+    document.getElementById(linkId).addEventListener('click', function(e){
+      e.preventDefault();
+      const url = this.href;
+      // Otvorenie Stripe linku
+      const win = window.open(url, '_blank');
+      if(!win) return alert("Otvorte Stripe v novom okne.");
+      // Po kliknutí na platbu sa predpokladá úspešná platba (demo)
+      // Tu môžeš neskôr doplniť webhook pre reálne overenie platby
+      win.addEventListener('beforeunload', () => {
+        // Zníženie počtu miest po platbe
+        const seatRef = db.ref('volne_miesta_' + groupKey);
+        seatRef.once('value').then(snapshot => {
+          const seats = snapshot.val() || defaultSeats[groupKey];
+          if(seats[gender] > 0) seats[gender]--;
+          seatRef.set(seats);
+        });
+      });
+    });
+  }
+
+  // Pre vekovú skupinu 26-36
+  setupPaymentLink('payment_26_36_men', '26_36', 'muzi');
+  setupPaymentLink('payment_26_36_women', '26_36', 'zeny');
+
+  // Pre vekovú skupinu 36-46
+  setupPaymentLink('payment_36_46', '36_46', 'muzi');
+  setupPaymentLink('payment_36_46', '36_46', 'zeny');
 </script>
 
 </body>
