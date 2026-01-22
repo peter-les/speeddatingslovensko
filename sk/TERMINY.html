@@ -2,7 +2,8 @@
 <html lang="sk">
 <head>
   <meta charset="UTF-8">
-  <title>TERMÍNY</title>
+  <title>TERMÍNY - Speed Dating Bratislava</title>
+  <!-- CSS -->
   <style>
     body {
       background-color: #4CAF50;
@@ -37,64 +38,147 @@
     nav {
       background-color: black;
       color: white;
-      padding: 10px 0;
+      padding: 10px;
     }
     nav a {
       color: white;
       margin: 0 15px;
     }
+    nav a:hover {
+      text-decoration: underline;
+    }
     footer {
       background-color: black;
       color: white;
-      padding: 10px 0;
+      padding: 10px;
       position: relative;
       bottom: 0;
       width: 100%;
     }
-    .columns {
+    footer a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+    .termin-container {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 30px;
-      padding: 20px;
       background-color: #4CAF50;
+      padding: 20px;
     }
-    .column {
-      flex: 0 0 300px;
+    .termin-column {
       text-align: center;
+      flex: 0 0 auto;
+      margin: 0 20px;
       background-color: #4CAF50;
       padding: 10px;
       border-radius: 10px;
     }
-    input, select, button {
-      margin-top: 5px;
-      padding: 5px;
-      width: 90%;
-      font-size: 1em;
+    .counter {
+      font-weight: bold;
+      margin: 5px 0;
     }
     button {
+      margin-top: 10px;
+      padding: 8px 15px;
+      font-size: 1em;
+      border-radius: 5px;
       cursor: pointer;
     }
   </style>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script>
+    // Firebase config - vlož svoje údaje
+    const firebaseConfig = {
+      apiKey: "TU_DAS_API_KEY",
+      authDomain: "TU_DAS_AUTH_DOMAIN",
+      databaseURL: "TU_DAS_DATABASE_URL",
+      projectId: "TU_DAS_PROJECT_ID",
+      storageBucket: "TU_DAS_BUCKET",
+      messagingSenderId: "TU_DAS_SENDER_ID",
+      appId: "TU_DAS_APP_ID"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    // Funkcia na načítanie počtu voľných miest
+    function updateCounters() {
+      db.ref('volne_miesta_26_36').once('value', snap => {
+        const data = snap.val();
+        document.getElementById('free26_muz').innerText = data.muzi;
+        document.getElementById('free26_zena').innerText = data.zeny;
+      });
+      db.ref('volne_miesta_36_46').once('value', snap => {
+        const data = snap.val();
+        document.getElementById('free36_muz').innerText = data.muzi;
+        document.getElementById('free36_zena').innerText = data.zeny;
+      });
+    }
+
+    // Funkcia na registráciu
+    function register(ageGroup, gender) {
+      const name = prompt("Zadaj krstné meno:");
+      if (!name) return;
+
+      const regRef = db.ref(`registracie_${ageGroup}`);
+      const countRef = db.ref(`volne_miesta_${ageGroup}`);
+
+      // Skontroluj, či sú voľné miesta
+      countRef.once('value', snap => {
+        const counts = snap.val();
+        if (counts[gender] > 0) {
+          // Ulož registráciu
+          const newReg = regRef.push();
+          newReg.set({name: name, gender: gender, timestamp: Date.now()});
+
+          // Zníž počet voľných miest
+          counts[gender] -= 1;
+          countRef.set(counts);
+
+          updateCounters();
+
+          // Stripe link pre platenie
+          if ((ageGroup == '26_36' && gender == 'muzi') || ageGroup == '36_46') {
+            const stripeLink = 'TU_DAS_STRIPE_LINK';
+            window.open(stripeLink, '_blank');
+          } else {
+            alert('Registrácia prebehla zdarma!');
+          }
+
+        } else {
+          alert('Žiadne voľné miesta pre túto kategóriu a pohlavie.');
+        }
+      });
+    }
+
+    window.onload = function() {
+      updateCounters();
+    }
+  </script>
 </head>
 <body>
 
 <nav>
-  <a href="index.html">Domov</a> |
-  <a href="AKO_TO_PREBIEHA.html">Ako to prebieha?</a> |
-  <a href="TERMINY.html">Termíny</a> |
+  <a href="index.html">Domov</a>
+  <a href="AKO_TO_PREBIEHA.html">Ako to prebieha</a>
+  <a href="TERMINY.html">Termíny</a>
   <a href="O_NAS.html">O nás</a>
 </nav>
 
 <hr>
-
 <h1>NASLEDUJÚCE TERMÍNY:</h1>
 
-<div class="columns">
+<div class="termin-container">
 
-  <!-- 26-36 rokov -->
-  <div class="column">
-    <h2>Veková skupina 26-36 rokov (PIATKY VEČER)</h2>
+  <!-- Piatok 26-36 -->
+  <div class="termin-column">
+    <h2>Vek 26-36 rokov (Piatky večer)</h2>
     <ul>
       <li>
         <strong>Dátum:</strong> ...<br>
@@ -103,25 +187,16 @@
         <strong>Mesto:</strong> Bratislava
       </li>
     </ul>
-    <p>Počet voľných miest: <span id="free26_36">0</span></p>
-    <p>Ženy platia 0 €, muži 9,90 €</p>
-    <a href="STRIPE_LINK_MUZI_26_36" target="_blank">Muži zaplaťte 9,90 €</a>
-
-    <form id="reg26_36">
-      <input type="text" name="meno" placeholder="Krstné meno" required><br>
-      <input type="number" name="vek" placeholder="Vek" required><br>
-      <select name="pohlavie" required>
-        <option value="">Pohlavie</option>
-        <option value="muz">Muž</option>
-        <option value="zena">Žena</option>
-      </select><br>
-      <button type="submit">Registrovať sa</button>
-    </form>
+    <div class="counter">
+      Voľné miesta – muži: <span id="free26_muz">0</span> | ženy: <span id="free26_zena">0</span>
+    </div>
+    <button onclick="register('26_36','muzi')">Registrovať sa – Muži 9,90€</button><br>
+    <button onclick="register('26_36','zeny')">Registrovať sa – Ženy zdarma</button>
   </div>
 
-  <!-- 36-46 rokov -->
-  <div class="column">
-    <h2>Veková skupina 36-46 rokov (SOBOTY VEČER)</h2>
+  <!-- Sobota 36-46 -->
+  <div class="termin-column">
+    <h2>Vek 36-46 rokov (Soboty večer)</h2>
     <ul>
       <li>
         <strong>Dátum:</strong> ...<br>
@@ -130,95 +205,21 @@
         <strong>Mesto:</strong> Bratislava
       </li>
     </ul>
-    <p>Počet voľných miest: <span id="free36_46">0</span></p>
-    <p>Muži aj ženy platia 9,90 €</p>
-    <a href="STRIPE_LINK_VSETCI_36_46" target="_blank">Zaplaťte 9,90 €</a>
-
-    <form id="reg36_46">
-      <input type="text" name="meno" placeholder="Krstné meno" required><br>
-      <input type="number" name="vek" placeholder="Vek" required><br>
-      <select name="pohlavie" required>
-        <option value="">Pohlavie</option>
-        <option value="muz">Muž</option>
-        <option value="zena">Žena</option>
-      </select><br>
-      <button type="submit">Registrovať sa</button>
-    </form>
+    <div class="counter">
+      Voľné miesta – muži: <span id="free36_muz">0</span> | ženy: <span id="free36_zena">0</span>
+    </div>
+    <button onclick="register('36_46','muzi')">Registrovať sa – Muži 9,90€</button><br>
+    <button onclick="register('36_46','zeny')">Registrovať sa – Ženy 9,90€</button>
   </div>
 
 </div>
 
-<p>
-  <a href="index.html">Naspäť</a>
-</p>
-
 <footer>
-  <p>
-    Kontakt:
-    <a href="mailto:bratislavaspeeddating@gmail.com">bratislavaspeeddating@gmail.com</a><br>
-    <a href="OBCHODNE_PODMIENKY.html">Obchodné podmienky</a> |
-    <a href="OCHRANA_OSOBNYCH_UDAJOV.html">Ochrana osobných údajov</a>
-  </p>
+  Kontakt:
+  <a href="mailto:bratislavaspeeddating@gmail.com">bratislavaspeeddating@gmail.com</a> |
+  <a href="OBCHODNE_PODMIENKY.html">Obchodné podmienky</a> |
+  <a href="OCHRANA_OSOBNYCH_UDAJOV.html">Ochrana osobných údajov</a>
 </footer>
-
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-<script>
-  // Firebase config - doplň svoje údaje
-  const firebaseConfig = {
-    apiKey: "TU_DAS_API_KEY",
-    authDomain: "TU_DAS_AUTH_DOMAIN",
-    databaseURL: "TU_DAS_DATABASE_URL",
-    projectId: "TU_DAS_PROJECT_ID",
-    storageBucket: "TU_DAS_BUCKET",
-    messagingSenderId: "TU_DAS_SENDER_ID",
-    appId: "TU_DAS_APP_ID"
-  };
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.database();
-
-  // Počet voľných miest
-  const free26_36El = document.getElementById('free26_36');
-  const free36_46El = document.getElementById('free36_46');
-
-  const updateCounter = (el, path) => {
-    const ref = db.ref(path);
-    ref.on('value', snapshot => {
-      el.textContent = snapshot.val() || 0;
-    });
-  };
-
-  updateCounter(free26_36El, 'volne_miesta_26_36');
-  updateCounter(free36_46El, 'volne_miesta_36_46');
-
-  // Registrácia
-  const register = (formId, dbPath, maxPlacesPath) => {
-    const form = document.getElementById(formId);
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      const data = {
-        meno: form.meno.value,
-        vek: form.vek.value,
-        pohlavie: form.pohlavie.value,
-        cas: new Date().toISOString()
-      };
-      db.ref(dbPath).push(data);
-
-      // Zníženie počtu voľných miest
-      const counterRef = db.ref(maxPlacesPath);
-      counterRef.transaction(current => {
-        return (current || 0) - 1;
-      });
-
-      form.reset();
-      alert('Registrácia bola úspešná!');
-    });
-  };
-
-  register('reg26_36', 'registracie_26_36', 'volne_miesta_26_36');
-  register('reg36_46', 'registracie_36_46', 'volne_miesta_36_46');
-</script>
 
 </body>
 </html>
