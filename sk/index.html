@@ -1,66 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sk">
 <head>
   <meta charset="UTF-8">
-  <title>Speed Dating Slovakia</title>
-  <!-- CSS -->
+  <title>Speed Dating Bratislava</title>
   <style>
     body {
-      background-color: #4CAF50;
-      color: black;                              <! FARBA TEXTU -->
-      text-align: center;
-      font-family: Arial, sans-serif;
       margin: 0;
-      padding: 0;
-    }
-    h1, h2, p, ul, li {
+      font-family: Arial, sans-serif;
+      background-color: #4CAF50;
+      color: black;
       text-align: center;
     }
-    ul {
-      list-style: none;
-      padding: 0;
+
+    /* HEADER */
+    header {
+      background-color: #000;
+      padding: 15px 0;
     }
-    a {
-      color: blue;                                <! FARBA LINKOV -->
+
+    header a {
+      color: white;
       text-decoration: none;
-      margin: 0 10px;
+      margin: 0 15px;
+      font-weight: bold;
     }
-    a:hover {
+
+    header a:hover {
       text-decoration: underline;
     }
 
-    nav {
-  text-align: center;
-  margin: 20px 0; /* optional spacing */
+    /* CONTENT */
+    main {
+      padding: 40px 20px;
     }
-    
-    img {
-      width: 200px;
-      height: auto;
-      display: block;
-      margin: 20px auto;
-      border-radius: 10px;
+
+    /* FOOTER */
+    footer {
+      background-color: #000;
+      color: white;
+      padding: 20px;
+      margin-top: 40px;
+    }
+
+    footer a {
+      color: white;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
+
 <body>
 
-<div style="text-align:right;">
-  <a href="./">English</a> | <a href="../sk/">Slovensky</a>
-</div>
-<hr>
-
-<h1>TOTO JE NAJLACNEJŠÍ SPEED DATING V BRATISLAVE</h1>
-
-<nav>
-  <a href=" AKO_TO_PREBIEHA.html"> Ako to prebieha? </a> |
-   <a href=" TERMINY.html">TERMÍNY</a> |
+<header>
+  <a href="index.html">Domov</a>
+  <a href="AKO_TO_PREBIEHA.html">Ako to prebieha</a>
+  <a href="TERMINY.html">Termíny</a>
   <a href="O_NAS.html">O nás</a>
-</nav>
+</header>
 
- <p>
-    <a href="index.html">Naspäť</a>
+<main>
+  <h1>NAJLACNEJŠÍ SPEED DATING V BRATISLAVE</h1>
+  <p>Osobné zoznamovanie v príjemnej atmosfére.</p>
+</main>
+
+<footer>
+  <p>Kontakt: <a href="mailto:bratislavaspeeddating@gmail.com">bratislavaspeeddating@gmail.com</a></p>
+  <p>
+    <a href="OBCHODNE_PODMIENKY.html">Obchodné podmienky</a> |
+    <a href="OCHRANA_OSOBNYCH_UDAJOV.html">Ochrana osobných údajov</a>
   </p>
-  
+</footer>
+
 </body>
 </html>
