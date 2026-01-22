@@ -167,21 +167,22 @@
   firebase.initializeApp(firebaseConfig);
   const db = firebase.database();
 
-  // Funkcia na načítanie voľných miest s fallback hodnotou 8
-  function loadSeats() {
-    db.ref('volne_miesta_26_36').once('value').then(snapshot => {
-      const data = snapshot.val() || { muzi: 8, zeny: 8 };
-      document.getElementById('free_men_26_36').textContent = data.muzi;
-      document.getElementById('free_women_26_36').textContent = data.zeny;
-    });
-    db.ref('volne_miesta_36_46').once('value').then(snapshot => {
-      const data = snapshot.val() || { muzi: 8, zeny: 8 };
-      document.getElementById('free_men_36_46').textContent = data.muzi;
-      document.getElementById('free_women_36_46').textContent = data.zeny;
-    });
-  }
+  // Funkcia na načítanie voľných miest naživo
+function listenSeats() {
+  db.ref('volne_miesta_26_36').on('value', snapshot => {
+    const data = snapshot.val() || { muzi: 8, zeny: 8 };
+    document.getElementById('free_men_26_36').textContent = data.muzi;
+    document.getElementById('free_women_26_36').textContent = data.zeny;
+  });
 
-  loadSeats();
+  db.ref('volne_miesta_36_46').on('value', snapshot => {
+    const data = snapshot.val() || { muzi: 8, zeny: 8 };
+    document.getElementById('free_men_36_46').textContent = data.muzi;
+    document.getElementById('free_women_36_46').textContent = data.zeny;
+  });
+}
+
+listenSeats();
 
   // Formulár registrácie
   function setupForm(formId, groupKey) {
