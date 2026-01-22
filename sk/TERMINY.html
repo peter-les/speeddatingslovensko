@@ -2,35 +2,56 @@
 <html lang="sk">
 <head>
   <meta charset="UTF-8">
-  <title>TERMÍNY - Speed Dating Bratislava</title>
-  <!-- CSS -->
+  <title>TERMÍNY</title>
   <style>
     body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
       background-color: #4CAF50;
       color: black;
       text-align: center;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    h1, h2, p, ul, li {
+      text-align: center;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
     }
     a {
-      color: white;
+      color: blue;
       text-decoration: none;
       margin: 0 10px;
     }
     a:hover {
       text-decoration: underline;
     }
-    .top-bar, .bottom-bar {
+    img {
+      width: 200px;
+      height: auto;
+      display: block;
+      margin: 20px auto;
+      border-radius: 10px;
+    }
+    nav {
       background-color: black;
       color: white;
-      padding: 10px;
+      padding: 10px 0;
     }
     nav a {
       color: white;
       margin: 0 15px;
     }
-    .container {
+    footer {
+      background-color: black;
+      color: white;
+      padding: 10px 0;
+      position: relative;
+      bottom: 0;
+      width: 100%;
+    }
+    .columns {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
@@ -38,159 +59,166 @@
       padding: 20px;
       background-color: #4CAF50;
     }
-    .event-column {
-      background-color: #4CAF50;
-      padding: 15px;
-      border-radius: 10px;
-      flex: 0 0 auto;
-      width: 300px;
-      box-sizing: border-box;
+    .column {
+      flex: 0 0 300px;
       text-align: center;
+      background-color: #4CAF50;
+      padding: 10px;
+      border-radius: 10px;
     }
-    input[type="text"], input[type="number"], select {
+    input, select, button {
+      margin-top: 5px;
       padding: 5px;
-      margin: 5px 0;
       width: 90%;
-      box-sizing: border-box;
+      font-size: 1em;
     }
-    input[type="submit"] {
-      padding: 8px 15px;
-      margin-top: 10px;
+    button {
       cursor: pointer;
     }
-    .free-spots {
-      font-weight: bold;
-      font-size: 1.2em;
-      margin-bottom: 10px;
-    }
   </style>
-
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-  <script>
-    // TODO: zmeň tieto údaje za svoje Firebase projekt údaje
-    const firebaseConfig = {
-      apiKey: "TVOJE_API_KEY",
-      authDomain: "TVOJ_PROJEKT.firebaseapp.com",
-      databaseURL: "https://TVOJ_PROJEKT.firebaseio.com",
-      projectId: "TVOJ_PROJEKT",
-      storageBucket: "TVOJ_PROJEKT.appspot.com",
-      messagingSenderId: "TVOJ_SENDER_ID",
-      appId: "TVOJ_APP_ID"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
-
-    function updateFreeSpots(group) {
-      const spotsRef = db.ref('events/' + group + '/freeSpots');
-      spotsRef.on('value', (snapshot) => {
-        const freeSpots = snapshot.val();
-        document.getElementById(group + '-spots').textContent = freeSpots;
-      });
-    }
-
-    function registerParticipant(group) {
-      const name = document.getElementById(group + '-name').value;
-      const age = document.getElementById(group + '-age').value;
-      const gender = document.getElementById(group + '-gender').value;
-
-      if (!name || !age || !gender) {
-        alert("Vyplňte všetky údaje!");
-        return false;
-      }
-
-      const participantRef = db.ref('events/' + group + '/participants');
-      participantRef.push({
-        name: name,
-        age: age,
-        gender: gender,
-        timestamp: Date.now()
-      });
-
-      const spotsRef = db.ref('events/' + group + '/freeSpots');
-      spotsRef.transaction((current) => {
-        if (current > 0) return current - 1;
-        else return 0;
-      });
-
-      alert("Registrácia prebehla úspešne!");
-      document.getElementById(group + '-form').reset();
-      return false;
-    }
-
-    window.onload = function() {
-      updateFreeSpots('group1');
-      updateFreeSpots('group2');
-    }
-  </script>
 </head>
 <body>
 
-<!-- Top bar -->
-<div class="top-bar">
+<nav>
   <a href="index.html">Domov</a> |
-  <a href="AKO_TO_PREBIEHA.html">Ako to prebieha</a> |
+  <a href="AKO_TO_PREBIEHA.html">Ako to prebieha?</a> |
   <a href="TERMINY.html">Termíny</a> |
   <a href="O_NAS.html">O nás</a>
-</div>
+</nav>
+
 <hr>
 
-<h1>Nasledujúce termíny</h1>
+<h1>NASLEDUJÚCE TERMÍNY:</h1>
 
-<div class="container">
+<div class="columns">
 
-  <!-- Skupina 26-36 rokov -->
-  <div class="event-column">
-    <h2>26-36 rokov (Piatky večer)</h2>
-    <p class="free-spots">Voľné miesta: <span id="group1-spots">0</span></p>
-    <form id="group1-form" onsubmit="return registerParticipant('group1')">
-      <input type="text" id="group1-name" placeholder="Krstné meno"><br>
-      <input type="number" id="group1-age" placeholder="Vek"><br>
-      <select id="group1-gender">
+  <!-- 26-36 rokov -->
+  <div class="column">
+    <h2>Veková skupina 26-36 rokov (PIATKY VEČER)</h2>
+    <ul>
+      <li>
+        <strong>Dátum:</strong> ...<br>
+        <strong>Čas:</strong> 18:00 - 19:00<br>
+        <strong>Adresa:</strong> ...<br>
+        <strong>Mesto:</strong> Bratislava
+      </li>
+    </ul>
+    <p>Počet voľných miest: <span id="free26_36">0</span></p>
+    <p>Ženy platia 0 €, muži 9,90 €</p>
+    <a href="STRIPE_LINK_MUZI_26_36" target="_blank">Muži zaplaťte 9,90 €</a>
+
+    <form id="reg26_36">
+      <input type="text" name="meno" placeholder="Krstné meno" required><br>
+      <input type="number" name="vek" placeholder="Vek" required><br>
+      <select name="pohlavie" required>
         <option value="">Pohlavie</option>
-        <option value="muž">Muž</option>
-        <option value="žena">Žena</option>
+        <option value="muz">Muž</option>
+        <option value="zena">Žena</option>
       </select><br>
-      <input type="submit" value="Registrovať">
+      <button type="submit">Registrovať sa</button>
     </form>
-    <p>
-      <a href="https://buy.stripe.com/test_7sY9AS2ObfKh2mH2Crc7u00" target="_blank">
-        Zaplať za Speed Dating
-      </a>
-    </p>
   </div>
 
-  <!-- Skupina 36-46 rokov -->
-  <div class="event-column">
-    <h2>36-46 rokov (Soboty večer)</h2>
-    <p class="free-spots">Voľné miesta: <span id="group2-spots">0</span></p>
-    <form id="group2-form" onsubmit="return registerParticipant('group2')">
-      <input type="text" id="group2-name" placeholder="Krstné meno"><br>
-      <input type="number" id="group2-age" placeholder="Vek"><br>
-      <select id="group2-gender">
+  <!-- 36-46 rokov -->
+  <div class="column">
+    <h2>Veková skupina 36-46 rokov (SOBOTY VEČER)</h2>
+    <ul>
+      <li>
+        <strong>Dátum:</strong> ...<br>
+        <strong>Čas:</strong> 18:00 - 19:00<br>
+        <strong>Adresa:</strong> ...<br>
+        <strong>Mesto:</strong> Bratislava
+      </li>
+    </ul>
+    <p>Počet voľných miest: <span id="free36_46">0</span></p>
+    <p>Muži aj ženy platia 9,90 €</p>
+    <a href="STRIPE_LINK_VSETCI_36_46" target="_blank">Zaplaťte 9,90 €</a>
+
+    <form id="reg36_46">
+      <input type="text" name="meno" placeholder="Krstné meno" required><br>
+      <input type="number" name="vek" placeholder="Vek" required><br>
+      <select name="pohlavie" required>
         <option value="">Pohlavie</option>
-        <option value="muž">Muž</option>
-        <option value="žena">Žena</option>
+        <option value="muz">Muž</option>
+        <option value="zena">Žena</option>
       </select><br>
-      <input type="submit" value="Registrovať">
+      <button type="submit">Registrovať sa</button>
     </form>
-    <p>
-      <a href="https://buy.stripe.com/test_7sY9AS2ObfKh2mH2Crc7u00" target="_blank">
-        Zaplať za Speed Dating
-      </a>
-    </p>
   </div>
 
 </div>
 
-<!-- Bottom bar -->
-<div class="bottom-bar">
-  Kontakt: <a href="mailto:bratislavaspeeddating@gmail.com">bratislavaspeeddating@gmail.com</a> |
-  <a href="OBCHODNE_PODMIENKY.html">Obchodné podmienky</a> |
-  <a href="OCHRANA_OSOBNYCH_UDAJOV.html">Ochrana osobných údajov</a>
-</div>
+<p>
+  <a href="index.html">Naspäť</a>
+</p>
+
+<footer>
+  <p>
+    Kontakt:
+    <a href="mailto:bratislavaspeeddating@gmail.com">bratislavaspeeddating@gmail.com</a><br>
+    <a href="OBCHODNE_PODMIENKY.html">Obchodné podmienky</a> |
+    <a href="OCHRANA_OSOBNYCH_UDAJOV.html">Ochrana osobných údajov</a>
+  </p>
+</footer>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script>
+  // Firebase config - doplň svoje údaje
+  const firebaseConfig = {
+    apiKey: "TU_DAS_API_KEY",
+    authDomain: "TU_DAS_AUTH_DOMAIN",
+    databaseURL: "TU_DAS_DATABASE_URL",
+    projectId: "TU_DAS_PROJECT_ID",
+    storageBucket: "TU_DAS_BUCKET",
+    messagingSenderId: "TU_DAS_SENDER_ID",
+    appId: "TU_DAS_APP_ID"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+
+  // Počet voľných miest
+  const free26_36El = document.getElementById('free26_36');
+  const free36_46El = document.getElementById('free36_46');
+
+  const updateCounter = (el, path) => {
+    const ref = db.ref(path);
+    ref.on('value', snapshot => {
+      el.textContent = snapshot.val() || 0;
+    });
+  };
+
+  updateCounter(free26_36El, 'volne_miesta_26_36');
+  updateCounter(free36_46El, 'volne_miesta_36_46');
+
+  // Registrácia
+  const register = (formId, dbPath, maxPlacesPath) => {
+    const form = document.getElementById(formId);
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const data = {
+        meno: form.meno.value,
+        vek: form.vek.value,
+        pohlavie: form.pohlavie.value,
+        cas: new Date().toISOString()
+      };
+      db.ref(dbPath).push(data);
+
+      // Zníženie počtu voľných miest
+      const counterRef = db.ref(maxPlacesPath);
+      counterRef.transaction(current => {
+        return (current || 0) - 1;
+      });
+
+      form.reset();
+      alert('Registrácia bola úspešná!');
+    });
+  };
+
+  register('reg26_36', 'registracie_26_36', 'volne_miesta_26_36');
+  register('reg36_46', 'registracie_36_46', 'volne_miesta_36_46');
+</script>
 
 </body>
 </html>
