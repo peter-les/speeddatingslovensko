@@ -1,89 +1,89 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sk">
 <head>
-  <meta charset="UTF-8">
-  <title>O_NAS</title>
-<!-- CSS -->
-  <style>
-    body {
-      background-color: #4CAF50;
-      color: black;                              <! FARBA TEXTU -->
-      text-align: center;
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-    h1, h2, p, ul, li {
-      text-align: center;
-    }
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-    a {
-      color: blue;                                <! FARBA LINKOV -->
-      text-decoration: none;
-      margin: 0 10px;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-    img {
-      width: 200px;
-      height: auto;
-      display: block;
-      margin: 20px auto;
-      border-radius: 10px;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>O NÁS</title>
 
+<style>
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #4CAF50;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  color: black;
+}
+
+header, footer {
+  background-color: black;
+  color: white;
+  padding: 15px 0;
+}
+
+header a, footer a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+main {
+  flex: 1;
+  padding: 30px;
+}
+</style>
 </head>
+
 <body>
-<div style="text-align:right;">
-  <a href="../en/about.html">English</a> | <a href="./">Slovensky</a>
+
+<header>
+  <a href="index.html">Domov</a>
+  <a href="AKO_TO_PREBIEHA.html">Ako to prebieha?</a>
+  <a href="TERMINY.html">Termíny</a>
+  <a href="O_NAS.html">O nás</a>
+</header>
+
+<main>
+
+<h1>O nás</h1>
+
+<p>V súčasnosti sme dvaja moderátori/organizátori:</p>
+
+<div style="display:flex; justify-content:center; gap:40px; flex-wrap:wrap;">
+
+<div>
+<h2>Peter <span style="font-size:0.6em;">(ja, ktorý píšem túto stránku)</span></h2>
+<img src="../images/ProfileImage4.png" width="150">
+<p>Toto je jeho YouTube channel:</p>
+<a href="https://www.youtube.com/@PeterLes11" target="_blank">
+https://www.youtube.com/@PeterLes11
+</a>
 </div>
-<hr>
-  <h1>O nás</h1>
 
-  
-
-  <p>
-    V súčasnosti sme dvaja moderátori/organizátori:
-  </p>
-
- <div style="display: flex; justify-content: center; flex-wrap: wrap; background-color: #4CAF50; padding: 20px;">
-
-  <!-- Peter Column -->
-  <div style="text-align: center; flex: 0 0 auto; margin-right: 20px;">
-    <h2>Peter: <span style="font-size: 0.6em;">(ja, ktorý píšem túto stránku)</span></h2>
-    <img src="../images/ProfileImage4.png" alt="Peter Profile" style="width:150px; height:auto; border-radius:10px; display:block; margin:0 auto;">
-    <p>Toto je jeho YouTube channel:</p>
-    <p>
-      <a href="https://www.youtube.com/@PeterLes11" target="_blank">
-        https://www.youtube.com/@PeterLes11
-      </a>
-    </p>
-  </div>
-
-  <!-- Pavol Column -->
-  <div style="text-align: center; flex: 0 0 auto; margin-left: 20px;">
-    <h2>Pavol:</h2>
-    <img src="../images/Pavol.jpg" alt="Pavol Profile" style="width:200px; height:auto; border-radius:10px; display:block; margin:0 auto;">
-    <p>Jeho Facebook účet:</p>
-    <p>
-      <a href="https://www.facebook.com/pavol.vedel" target="_blank">
-        https://www.facebook.com/pavol.vedel
-      </a>
-    </p>
-  </div>
+<div>
+<h2>Pavol</h2>
+<img src="../images/Pavol.jpg" width="200">
+<p>Jeho Facebook účet:</p>
+<a href="https://www.facebook.com/pavol.vedel" target="_blank">
+https://www.facebook.com/pavol.vedel
+</a>
+</div>
 
 </div>
 
+<p><a href="index.html">Naspäť</a></p>
 
+</main>
 
+<footer>
   <p>
-    <a href="index.html">Naspäť</a>
+    Kontakt:
+    <a href="mailto:bratislavaspeeddating@gmail.com">bratislavaspeeddating@gmail.com</a><br>
+    <a href="OBCHODNE_PODMIENKY.html">Obchodné podmienky</a> |
+    <a href="OCHRANA_OSOBNYCH_UDAJOV.html">Ochrana osobných údajov</a>
   </p>
+</footer>
 
 </body>
 </html>
