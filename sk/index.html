@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Speed Dating Slovakia</title>
 
+<link rel="stylesheet" href="css/header.css">
+
 <style>
 body {
   margin: 0;
@@ -13,102 +15,19 @@ body {
   flex-direction: column;
   background-color: #4CAF50;
   font-family: Arial, sans-serif;
+  text-align: center;
   color: black;
 }
 
-/* ================= HEADER ================= */
-header {
-  background-color: black;
-  color: white;
-  padding: 15px 30px;
-  display: flex;
-  align-items: center;
-}
-
-/* LOGO */
-.logo {
-  display: flex;
-  align-items: center;
-}
-
-.logo img {
-  height: 40px;
-  margin-right: 10px;
-}
-
-.logo-text {
-  font-size: 16px;
-  line-height: 1.1;
-  font-weight: bold;
-  text-align: left;
-}
-
-/* MENU */
-nav {
-  margin-left: auto;
-}
-
-nav a {
-  color: white;
-  margin: 0 10px;
-  text-decoration: none;
-  font-size: 16px;
-}
-
-nav a:hover {
-  text-decoration: underline;
-}
-
-/* HAMBURGER */
-.hamburger {
-  display: none;
-  font-size: 28px;
-  cursor: pointer;
-  margin-left: auto;
-}
-
-/* ================= MOBILE ================= */
-@media (max-width: 768px) {
-
-  nav {
-    display: none;
-    position: absolute;
-    top: 70px;
-    right: 0;
-    background-color: black;
-    width: 100%;
-    text-align: center;
-    padding: 15px 0;
-  }
-
-  nav a {
-    display: block;
-    margin: 12px 0;
-    font-size: 18px;
-  }
-
-  nav.show {
-    display: block;
-  }
-
-  .hamburger {
-    display: block;
-  }
-}
-
-/* ================= CONTENT ================= */
 main {
   flex: 1;
   padding: 30px;
-  text-align: center;
 }
 
-/* ================= FOOTER ================= */
 footer {
   background-color: black;
   color: white;
   padding: 15px 0;
-  text-align: center;
 }
 
 footer a {
@@ -125,39 +44,21 @@ footer a:hover {
 
 <body>
 
-<header>
-  <!-- LOGO -->
-  <div class="logo">
-    <img src="../images/List.png" alt="Logo">
-    <div class="logo-text">
-      Zoznamka<br>
-      Petra a Pavla
-    </div>
-  </div>
-
-  <!-- HAMBURGER -->
-  <div class="hamburger" onclick="toggleMenu()">☰</div>
-
-  <!-- NAVIGÁCIA -->
-  <nav id="menu">
-    <a href="index.html">Domov</a>
-    <a href="AKO_TO_PREBIEHA.html">Ako to prebieha?</a>
-    <a href="TERMINY.html">Termíny</a>
-    <a href="O_NAS.html">O nás</a>
-    <a href="KONTAKT.html">Kontakt</a>
-  </nav>
-</header>
+<!-- HEADER -->
+<div id="header-placeholder"></div>
 
 <main>
 
 <h1>TOTO JE NAJLACNEJŠÍ SPEED DATING V BRATISLAVE !</h1>
 
-<div style="margin-top: 20px; font-size: 20px;">
-  Ženy: 3,9 Eur (26-36 rokov) alebo 9,9 Eur (36-46 rokov).<br>
-  Muži: 9,9 Eur (26-36 rokov aj 36-46 rokov).
+<div style="text-align: center;">
+  <div style="display: inline-block; text-align: left; font-size: 20px;">
+    Ženy: 3,9 Eur (26-36 rokov) alebo 9,9 Eur (36-46 rokov).<br>
+    Muži: 9,9 Eur (26-36 rokov aj 36-46 rokov).
+  </div>
 </div>
 
-<div style="margin-top: 25px;">
+<div style="margin-top: 20px;">
   <img src="../images/UvodnyObrazok5.png" alt="Úvodný obrázok" style="max-width: 250px; height: auto;">
 </div>
 
@@ -170,10 +71,13 @@ footer a:hover {
   </p>
 </footer>
 
+<script src="js/header.js" defer></script>
 <script>
-function toggleMenu() {
-  document.getElementById("menu").classList.toggle("show");
-}
+fetch("header.html")
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById("header-placeholder").innerHTML = data;
+  });
 </script>
 
 </body>
