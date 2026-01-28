@@ -2,58 +2,77 @@
 <html lang="sk">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Obchodné podmienky</title>
+
 <style>
 body {
-  margin: 0;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background-color: #4CAF50;
-  font-family: Arial, sans-serif;
-  text-align: center;
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  background:#4CAF50;
+  font-family:Arial,sans-serif;
+  text-align:center;
 }
-header, footer {
-  background-color: #000;
-  color: white;
-  padding: 15px 0;
+
+/* HEADER */
+header {
+  background:black;
+  color:white;
+  padding:15px 30px;
+  display:flex;
+  align-items:center;
 }
-header a, footer a { color: white; margin: 0 10px; text-decoration: none; }
-main { flex: 1; padding: 30px; }
+.logo{display:flex;align-items:center;}
+.logo img{height:40px;margin-right:10px;}
+.logo-text{font-size:16px;font-weight:bold;line-height:1.1;text-align:left;}
+nav{margin-left:auto;}
+nav a{color:white;margin:0 10px;text-decoration:none;}
+.hamburger{display:none;font-size:28px;cursor:pointer;margin-left:auto;}
+
+@media(max-width:768px){
+ nav{display:none;position:absolute;top:70px;right:0;width:100%;background:black;text-align:center;}
+ nav a{display:block;margin:12px 0;font-size:18px;}
+ nav.show{display:block;}
+ .hamburger{display:block;}
+}
+
+main{flex:1;padding:30px;}
+footer{background:black;color:white;padding:15px 0;}
 </style>
 </head>
 
 <body>
 
 <header>
+<div class="logo">
+  <img src="../images/List.png">
+  <div class="logo-text">Zoznamka<br>Petra a Pavla</div>
+</div>
+<div class="hamburger" onclick="toggleMenu()">☰</div>
+<nav id="menu">
   <a href="index.html">Domov</a>
   <a href="AKO_TO_PREBIEHA.html">Ako to prebieha?</a>
   <a href="TERMINY.html">Termíny</a>
   <a href="O_NAS.html">O nás</a>
   <a href="KONTAKT.html">Kontakt</a>
+</nav>
 </header>
 
 <main>
 <h1>Obchodné podmienky</h1>
-
 <p>Prevádzkovateľ organizuje zoznamovacie podujatia – speed dating.</p>
-
 <p>Registráciou na podujatie účastník súhlasí s týmito podmienkami.</p>
-
-<p>Platba za podujatie je nevratná, pokiaľ nie je podujatie zrušené zo strany organizátora.</p>
-
-<p>Organizátor nezodpovedá za správanie účastníkov počas podujatia.</p>
-
-<p>Účasť na podujatí je dobrovoľná.</p>
-
-<p>Tieto podmienky sú platné od dátumu zverejnenia.</p>
 </main>
 
-<footer>
-<p>
-  
-</p>
-</footer>
+<footer></footer>
+
+<script>
+function toggleMenu(){
+ document.getElementById("menu").classList.toggle("show");
+}
+</script>
 
 </body>
 </html>
