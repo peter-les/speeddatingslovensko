@@ -2,6 +2,7 @@
 <html lang="sk">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AKO TO PREBIEHA</title>
 
 <style>
@@ -12,25 +13,94 @@ body {
   flex-direction: column;
   background-color: #4CAF50;
   font-family: Arial, sans-serif;
-  text-align: center;
   color: black;
 }
 
-header, footer {
+/* ================= HEADER ================= */
+header {
   background-color: black;
   color: white;
-  padding: 15px 0;
+  padding: 15px 30px;
+  display: flex;
+  align-items: center;
 }
 
-header a, footer a {
+/* LOGO */
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo img {
+  height: 40px;
+  margin-right: 10px;
+}
+
+.logo-text {
+  font-size: 16px;
+  line-height: 1.1;
+  font-weight: bold;
+  text-align: left;
+}
+
+/* MENU */
+nav {
+  margin-left: auto;
+}
+
+nav a {
   color: white;
   margin: 0 10px;
   text-decoration: none;
+  font-size: 16px;
 }
 
+nav a:hover {
+  text-decoration: underline;
+}
+
+/* HAMBURGER */
+.hamburger {
+  display: none;
+  font-size: 28px;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+
+  nav {
+    display: none;
+    position: absolute;
+    top: 70px;
+    right: 0;
+    background-color: black;
+    width: 100%;
+    text-align: center;
+    padding: 15px 0;
+  }
+
+  nav a {
+    display: block;
+    margin: 12px 0;
+    font-size: 18px;
+  }
+
+  nav.show {
+    display: block;
+  }
+
+  .hamburger {
+    display: block;
+  }
+}
+
+/* ================= CONTENT ================= */
 main {
   flex: 1;
   padding: 30px;
+  text-align: center;
 }
 
 ul {
@@ -43,17 +113,50 @@ ul {
 li {
   margin-bottom: 10px;
 }
+
+/* ================= FOOTER ================= */
+footer {
+  background-color: black;
+  color: white;
+  padding: 15px 0;
+  text-align: center;
+}
+
+footer a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
 </style>
 </head>
 
 <body>
 
 <header>
-  <a href="index.html">Domov</a>
-  <a href="AKO_TO_PREBIEHA.html">Ako to prebieha?</a>
-  <a href="TERMINY.html">Termíny</a>
-  <a href="O_NAS.html">O nás</a>
-  <a href="KONTAKT.html">Kontakt</a>
+  <!-- LOGO -->
+  <div class="logo">
+    <img src="../images/List.png" alt="Logo">
+    <div class="logo-text">
+      Zoznamka<br>
+      Petra a Pavla
+    </div>
+  </div>
+
+  <!-- HAMBURGER -->
+  <div class="hamburger" onclick="toggleMenu()">☰</div>
+
+  <!-- NAVIGÁCIA -->
+  <nav id="menu">
+    <a href="index.html">Domov</a>
+    <a href="AKO_TO_PREBIEHA.html">Ako to prebieha?</a>
+    <a href="TERMINY.html">Termíny</a>
+    <a href="O_NAS.html">O nás</a>
+    <a href="KONTAKT.html">Kontakt</a>
+  </nav>
 </header>
 
 <main>
@@ -91,6 +194,12 @@ li {
     <a href="OCHRANA_OSOBNYCH_UDAJOV.html">Ochrana osobných údajov</a>
   </p>
 </footer>
+
+<script>
+function toggleMenu() {
+  document.getElementById("menu").classList.toggle("show");
+}
+</script>
 
 </body>
 </html>
