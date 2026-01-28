@@ -1,127 +1,141 @@
 <!DOCTYPE html>
 <html lang="sk">
 <head>
-  <meta charset="UTF-8">
-  <title>Kontakt | Speed Dating Bratislava</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kontakt | Speed Dating Bratislava</title>
 
-  <style>
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      background-color: #4CAF50;
-      font-family: Arial, sans-serif;
-      text-align: center;
-      color: black;
-    }
+<style>
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #4CAF50;
+  font-family: Arial, sans-serif;
+  color: black;
+}
 
-    header, footer {
-      background-color: black;
-      color: white;
-      padding: 15px 0;
-    }
+/* HEADER */
+header {
+  background-color: black;
+  color: white;
+  padding: 15px 30px;
+  display: flex;
+  align-items: center;
+}
+.logo { display:flex; align-items:center; }
+.logo img { height:40px; margin-right:10px; }
+.logo-text { font-size:16px; line-height:1.1; font-weight:bold; text-align:left; }
 
-    header a, footer a {
-      color: white;
-      margin: 0 10px;
-      text-decoration: none;
-    }
+nav { margin-left:auto; }
+nav a { color:white; margin:0 10px; text-decoration:none; }
+nav a:hover { text-decoration:underline; }
 
-    header a:hover, footer a:hover {
-      text-decoration: underline;
-    }
+.hamburger {
+  display:none;
+  font-size:28px;
+  cursor:pointer;
+  margin-left:auto;
+}
 
-    main {
-      flex: 1;
-      padding: 30px;
-    }
+@media (max-width:768px){
+  nav {
+    display:none;
+    position:absolute;
+    top:70px;
+    right:0;
+    width:100%;
+    background:black;
+    text-align:center;
+    padding:15px 0;
+  }
+  nav a { display:block; margin:12px 0; font-size:18px; }
+  nav.show { display:block; }
+  .hamburger { display:block; }
+}
 
-    .kontakt-wrapper {
-      display: flex;
-      justify-content: center;
-      gap: 50px;
-      flex-wrap: wrap;
-      margin-top: 30px;
-    }
+/* CONTENT */
+main { flex:1; padding:30px; text-align:center; }
 
-    .kontakt-box {
-      background-color: #4CAF50;
-      padding: 20px;
-      border-radius: 10px;
-      min-width: 260px;
-    }
+.kontakt-wrapper {
+  display:flex;
+  justify-content:center;
+  gap:50px;
+  flex-wrap:wrap;
+  margin-top:30px;
+}
+.kontakt-box {
+  background-color:#4CAF50;
+  padding:20px;
+  border-radius:10px;
+  min-width:260px;
+}
 
-    h2 {
-      margin-top: 0;
-    }
-  </style>
+/* FOOTER */
+footer {
+  background:black;
+  color:white;
+  padding:15px 0;
+  text-align:center;
+}
+footer a { color:white; margin:0 10px; text-decoration:none; }
+</style>
 </head>
 
 <body>
 
 <header>
-  <a href="index.html">Domov</a>
-  <a href="AKO_TO_PREBIEHA.html">Ako to prebieha?</a>
-  <a href="TERMINY.html">Termíny</a>
-  <a href="O_NAS.html">O nás</a>
-  <a href="KONTAKT.html">Kontakt</a>
+  <div class="logo">
+    <img src="../images/List.png" alt="Logo">
+    <div class="logo-text">Zoznamka<br>Petra a Pavla</div>
+  </div>
+
+  <div class="hamburger" onclick="toggleMenu()">☰</div>
+
+  <nav id="menu">
+    <a href="index.html">Domov</a>
+    <a href="AKO_TO_PREBIEHA.html">Ako to prebieha?</a>
+    <a href="TERMINY.html">Termíny</a>
+    <a href="O_NAS.html">O nás</a>
+    <a href="KONTAKT.html">Kontakt</a>
+  </nav>
 </header>
 
 <main>
+<h1>Kontakt</h1>
 
-  <h1>Kontakt</h1>
+<p>
+Pre informácie ohľadom priebehu večerov, pozri
+<a href="AKO_TO_PREBIEHA.html">Ako to prebieha?</a>
+</p>
 
-  <p>
-    Pre informácie ohľadom priebehu večerov, pozri "<a href="AKO_TO_PREBIEHA.html">Ako to prebieha?</a>". <br>
-    V prípade problému s platbou či registráciou použi kontakt dole.
-  </p>
-
-  <div class="kontakt-wrapper">
-
-    <div class="kontakt-box">
-      <h2>Email:</h2>
-      <p>
-        <a href="mailto:bratislavaspeeddating@gmail.com">
-          bratislavaspeeddating@gmail.com
-        </a>
-      </p>
-      <p>
-        📌 V prípade problémov s platbou
-        prosím do predmetu správy napíš:
-        <strong>„Problém s PLATBOU“</strong>. <br>
-        📌 V prípade problémov s registráciou
-        prosím do predmetu správy napíš:
-        <strong>„Problém s REGISTRÁCIOU“</strong>.
-      </p>
-    </div>
-
-    <div class="kontakt-box">
-      <h2>Bankové spojenie:</h2>
-      <p>
-        <strong>IBAN:</strong><br>
-        SK08&nbsp;8330&nbsp;0000&nbsp;0021&nbsp;0341&nbsp;4782
-      </p>
-      <p>
-        <strong>Banka:</strong><br>
-        Fio banka, a.s.
-      </p>
-      <p>
-        <strong>SWIFT / BIC:</strong><br>
-        FIOZSKBAXXX
-      </p>
-    </div>
-
+<div class="kontakt-wrapper">
+  <div class="kontakt-box">
+    <h2>Email:</h2>
+    <a href="mailto:bratislavaspeeddating@gmail.com">
+      bratislavaspeeddating@gmail.com
+    </a>
   </div>
 
+  <div class="kontakt-box">
+    <h2>Bankové spojenie:</h2>
+    <strong>IBAN:</strong><br>
+    SK08 8330 0000 0021 0341 4782
+  </div>
+</div>
 </main>
 
 <footer>
-  <p>
-    <a href="OBCHODNE_PODMIENKY.html">Obchodné podmienky</a> |
-    <a href="OCHRANA_OSOBNYCH_UDAJOV.html">Ochrana osobných údajov</a>
-  </p>
+<a href="OBCHODNE_PODMIENKY.html">Obchodné podmienky</a> |
+<a href="OCHRANA_OSOBNYCH_UDAJOV.html">Ochrana osobných údajov</a>
 </footer>
+
+<script>
+function toggleMenu(){
+  document.getElementById("menu").classList.toggle("show");
+}
+</script>
 
 </body>
 </html>
