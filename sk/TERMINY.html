@@ -1,79 +1,87 @@
 <!DOCTYPE html>
 <html lang="sk">
 <head>
-  <meta charset="UTF-8">
-  <title>TERMINY - Speed Dating Bratislava</title>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TERMINY - Speed Dating Bratislava</title>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
-  <style>
-    body {
-      background-color: #4CAF50;
-      color: black;
-      text-align: center;
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-    header, footer {
-      background-color: #000000;
-      color: white;
-      padding: 10px;
-    }
-    header a, footer a {
-      color: white;
-      margin: 0 10px;
-      text-decoration: none;
-    }
-    header a:hover, footer a:hover {
-      text-decoration: underline;
-    }
-    main {
-      flex: 1;
-      padding: 20px;
-    }
-    .flex-container {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 40px;
-      margin-bottom: 40px;
-    }
-    .column {
-      background-color: #4CAF50;
-      padding: 20px;
-      border-radius: 10px;
-      text-align: center;
-      min-width: 250px;
-    }
-    button, form input[type="submit"] {
-      margin-top: 10px;
-      padding: 10px 15px;
-      font-size: 1em;
-      cursor: pointer;
-    }
-    .counter {
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-    form input[type="text"], form input[type="number"], form select {
-      padding: 5px;
-      margin: 5px 0;
-      width: 90%;
-    }
-  </style>
+<link rel="stylesheet" href="css/header.css">
+
+<style>
+body {
+  background-color: #4CAF50;
+  color: black;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  padding: 20px;
+}
+
+.flex-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.column {
+  background-color: #4CAF50;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  min-width: 250px;
+}
+
+button, form input[type="submit"] {
+  margin-top: 10px;
+  padding: 10px 15px;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.counter {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+form input[type="text"], form input[type="number"], form select {
+  padding: 5px;
+  margin: 5px 0;
+  width: 90%;
+}
+
+footer {
+  background-color: black;
+  color: white;
+  padding: 15px 0;
+}
+
+footer a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+</style>
 </head>
 <body>
-<header>
-  <a href="index.html">Domov</a> |
-  <a href="AKO_TO_PREBIEHA.html">Ako to prebieha</a> |
-  <a href="TERMINY.html">Termíny</a> |
-  <a href="O_NAS.html">O nás</a>
-  <a href="KONTAKT.html">Kontakt</a>
-</header>
+
+<!-- HEADER -->
+<div id="header-placeholder"></div>
 
 <main>
   <h1>Nasledujúce termíny:</h1>
@@ -111,8 +119,7 @@
         </select><br>
         <input type="submit" value="Registrovať (iba po zaplatení)">
       </form>
-
-      </div>
+    </div>
 
     <!-- 36-46 rokov -->
     <div class="column" id="group36_46">
@@ -143,8 +150,7 @@
         </select><br>
         <input type="submit" value="Registrovať (iba po zaplatení)">
       </form>
-
-        </div>
+    </div>
 
   </div>
 </main>
@@ -156,52 +162,60 @@
   </p>
 </footer>
 
+<script src="js/header.js" defer></script>
 <script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyBWuOkOK_ViW3Byns3h5LdZ5NFrPjSo_jM",
-    authDomain: "speeddatingslovakia.firebaseapp.com",
-    databaseURL: "https://speeddatingslovakia-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "speeddatingslovakia",
-    storageBucket: "speeddatingslovakia.firebasestorage.app",
-    messagingSenderId: "1085212330025",
-    appId: "1:1085212330025:web:de6bccf7b2ddf28df8f438"
-  };
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.database();
+fetch("header.html")
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById("header-placeholder").innerHTML = data;
+  });
 
-  // Zobrazenie voľných miest
-  function loadSeats() {
-    db.ref('volne_miesta_26_36').once('value').then(snapshot => {
-      const data = snapshot.val() || { muzi: 8, zeny: 8 };
-      document.getElementById('free_men_26_36').textContent = data.muzi;
-      document.getElementById('free_women_26_36').textContent = data.zeny;
-    });
-    db.ref('volne_miesta_36_46').once('value').then(snapshot => {
-      const data = snapshot.val() || { muzi: 8, zeny: 8 };
-      document.getElementById('free_men_36_46').textContent = data.muzi;
-      document.getElementById('free_women_36_46').textContent = data.zeny;
-    });
-  }
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyBWuOkOK_ViW3Byns3h5LdZ5NFrPjSo_jM",
+  authDomain: "speeddatingslovakia.firebaseapp.com",
+  databaseURL: "https://speeddatingslovakia-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "speeddatingslovakia",
+  storageBucket: "speeddatingslovakia.firebasestorage.app",
+  messagingSenderId: "1085212330025",
+  appId: "1:1085212330025:web:de6bccf7b2ddf28df8f438"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
 
-  loadSeats();
+// Zobrazenie voľných miest
+function loadSeats() {
+  db.ref('volne_miesta_26_36').once('value').then(snapshot => {
+    const data = snapshot.val() || { muzi: 8, zeny: 8 };
+    document.getElementById('free_men_26_36').textContent = data.muzi;
+    document.getElementById('free_women_26_36').textContent = data.zeny;
+  });
+  db.ref('volne_miesta_36_46').once('value').then(snapshot => {
+    const data = snapshot.val() || { muzi: 8, zeny: 8 };
+    document.getElementById('free_men_36_46').textContent = data.muzi;
+    document.getElementById('free_women_36_46').textContent = data.zeny;
+  });
+}
 
-  // Registrácia po zaplatení
-  function setupForm(formId, groupKey, gender) {
-    document.getElementById(formId).addEventListener('submit', function(e){
-      e.preventDefault();
-      const name = this.name.value;
-      const age = parseInt(this.age.value);
-      const selectedGender = this.gender.value;
-      if(!name || !age || !selectedGender) return;
+loadSeats();
 
-      alert("Najprv je potrebné zaplatiť cez príslušný Stripe link.");
-      // Po zaplatení Stripe webhookom zníži počet voľných miest
-      this.reset();
-    });
-  }
+// Registrácia po zaplatení
+function setupForm(formId) {
+  document.getElementById(formId).addEventListener('submit', function(e){
+    e.preventDefault();
+    const name = this.name.value;
+    const age = parseInt(this.age.value);
+    const selectedGender = this.gender.value;
+    if(!name || !age || !selectedGender) return;
 
-  setupForm('form26_36', '26_36');
-  setupForm('form36_46', '36_46');
+    alert("Najprv je potrebné zaplatiť cez príslušný Stripe link.");
+    this.reset();
+  });
+}
+
+setupForm('form26_36');
+setupForm('form36_46');
 </script>
+
 </body>
 </html>
