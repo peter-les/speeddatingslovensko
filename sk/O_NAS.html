@@ -2,7 +2,10 @@
 <html lang="sk">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>O NÁS</title>
+
+<link rel="stylesheet" href="css/header.css">
 
 <style>
 body {
@@ -16,34 +19,33 @@ body {
   color: black;
 }
 
-header, footer {
+main {
+  flex: 1;
+  padding: 30px;
+}
+
+footer {
   background-color: black;
   color: white;
   padding: 15px 0;
 }
 
-header a, footer a {
+footer a {
   color: white;
   margin: 0 10px;
   text-decoration: none;
 }
 
-main {
-  flex: 1;
-  padding: 30px;
+footer a:hover {
+  text-decoration: underline;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <a href="index.html">Domov</a>
-  <a href="AKO_TO_PREBIEHA.html">Ako to prebieha?</a>
-  <a href="TERMINY.html">Termíny</a>
-  <a href="O_NAS.html">O nás</a>
-  <a href="KONTAKT.html">Kontakt</a>
-</header>
+<!-- HEADER -->
+<div id="header-placeholder"></div>
 
 <main>
 
@@ -81,6 +83,15 @@ https://www.facebook.com/pavol.vedel
     <a href="OCHRANA_OSOBNYCH_UDAJOV.html">Ochrana osobných údajov</a>
   </p>
 </footer>
+
+<script src="js/header.js" defer></script>
+<script>
+fetch("header.html")
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById("header-placeholder").innerHTML = data;
+  });
+</script>
 
 </body>
 </html>
