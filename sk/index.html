@@ -2,6 +2,7 @@
 <html lang="sk">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Speed Dating Slovakia</title>
 
 <style>
@@ -12,11 +13,10 @@ body {
   flex-direction: column;
   background-color: #4CAF50;
   font-family: Arial, sans-serif;
-  text-align: center;
   color: black;
 }
 
-/* HLAVIČKA */
+/* ================= HEADER ================= */
 header {
   background-color: black;
   color: white;
@@ -29,8 +29,6 @@ header {
 .logo {
   display: flex;
   align-items: center;
-  margin-right: 40px;
-  text-align: left;
 }
 
 .logo img {
@@ -42,23 +40,75 @@ header {
   font-size: 16px;
   line-height: 1.1;
   font-weight: bold;
+  text-align: left;
 }
 
 /* MENU */
+nav {
+  margin-left: auto;
+}
+
 nav a {
   color: white;
   margin: 0 10px;
   text-decoration: none;
+  font-size: 16px;
 }
 
 nav a:hover {
   text-decoration: underline;
 }
 
+/* HAMBURGER */
+.hamburger {
+  display: none;
+  font-size: 28px;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+
+  nav {
+    display: none;
+    position: absolute;
+    top: 70px;
+    right: 0;
+    background-color: black;
+    width: 100%;
+    text-align: center;
+    padding: 15px 0;
+  }
+
+  nav a {
+    display: block;
+    margin: 12px 0;
+    font-size: 18px;
+  }
+
+  nav.show {
+    display: block;
+  }
+
+  .hamburger {
+    display: block;
+  }
+}
+
+/* ================= CONTENT ================= */
+main {
+  flex: 1;
+  padding: 30px;
+  text-align: center;
+}
+
+/* ================= FOOTER ================= */
 footer {
   background-color: black;
   color: white;
   padding: 15px 0;
+  text-align: center;
 }
 
 footer a {
@@ -70,18 +120,13 @@ footer a {
 footer a:hover {
   text-decoration: underline;
 }
-
-main {
-  flex: 1;
-  padding: 30px;
-}
 </style>
 </head>
 
 <body>
 
 <header>
-  <!-- LOGO VLAVO -->
+  <!-- LOGO -->
   <div class="logo">
     <img src="../images/List.png" alt="Logo">
     <div class="logo-text">
@@ -90,8 +135,11 @@ main {
     </div>
   </div>
 
+  <!-- HAMBURGER -->
+  <div class="hamburger" onclick="toggleMenu()">☰</div>
+
   <!-- NAVIGÁCIA -->
-  <nav>
+  <nav id="menu">
     <a href="index.html">Domov</a>
     <a href="AKO_TO_PREBIEHA.html">Ako to prebieha?</a>
     <a href="TERMINY.html">Termíny</a>
@@ -104,14 +152,12 @@ main {
 
 <h1>TOTO JE NAJLACNEJŠÍ SPEED DATING V BRATISLAVE !</h1>
 
-<div style="text-align: center;">
-  <div style="display: inline-block; text-align: left; font-size: 20px;">
-    Ženy: 3,9 Eur (26-36 rokov) alebo 9,9 Eur (36-46 rokov).<br>
-    Muži: 9,9 Eur (26-36 rokov aj 36-46 rokov).
-  </div>
+<div style="margin-top: 20px; font-size: 20px;">
+  Ženy: 3,9 Eur (26-36 rokov) alebo 9,9 Eur (36-46 rokov).<br>
+  Muži: 9,9 Eur (26-36 rokov aj 36-46 rokov).
 </div>
 
-<div style="margin-top: 20px;">
+<div style="margin-top: 25px;">
   <img src="../images/UvodnyObrazok5.png" alt="Úvodný obrázok" style="max-width: 250px; height: auto;">
 </div>
 
@@ -123,6 +169,12 @@ main {
     <a href="OCHRANA_OSOBNYCH_UDAJOV.html">Ochrana osobných údajov</a>
   </p>
 </footer>
+
+<script>
+function toggleMenu() {
+  document.getElementById("menu").classList.toggle("show");
+}
+</script>
 
 </body>
 </html>
