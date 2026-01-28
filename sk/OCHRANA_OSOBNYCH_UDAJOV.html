@@ -15,15 +15,13 @@ body {
   flex-direction: column;
   background-color: #4CAF50;
   font-family: Arial, sans-serif;
-  color: black;
   text-align: center;
+  color: black;
 }
 
 main {
   flex: 1;
   padding: 30px;
-  max-width: 900px;
-  margin: 0 auto;
 }
 
 footer {
@@ -37,10 +35,6 @@ footer a {
   margin: 0 10px;
   text-decoration: none;
 }
-
-footer a:hover {
-  text-decoration: underline;
-}
 </style>
 </head>
 
@@ -50,18 +44,19 @@ footer a:hover {
 <div id="header-placeholder"></div>
 
 <main>
-  <h1>Ochrana osobných údajov</h1>
+<h1>Ochrana osobných údajov</h1>
 
-  <p>
-    Prevádzkovateľ spracúva osobné údaje v súlade s nariadením GDPR.
-    Osobné údaje sú spracúvané výlučne za účelom organizácie
-    zoznamovacích podujatí.
-  </p>
+<p>Prevádzkovateľ spracúva osobné údaje v rozsahu: meno, vek, pohlavie a email.</p>
 
-  <p>
-    Osobné údaje nie sú poskytované tretím stranám a sú uchovávané
-    iba po nevyhnutne potrebnú dobu.
-  </p>
+<p>Údaje sú spracované za účelom registrácie na speed dating podujatia.</p>
+
+<p>Údaje sú uchovávané najviac po dobu 12 mesiacov.</p>
+
+<p>Údaje nie sú poskytované tretím stranám.</p>
+
+<p>Dotknutá osoba má právo na prístup, opravu alebo vymazanie údajov.</p>
+
+<p>Kontakt: bratislavaspeeddating@gmail.com</p>
 </main>
 
 <footer>
@@ -72,7 +67,6 @@ footer a:hover {
 </footer>
 
 <script src="js/header.js" defer></script>
-
 <script>
 fetch("header.html")
   .then(response => response.text())
