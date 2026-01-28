@@ -2,7 +2,11 @@
 <html lang="sk">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ochrana osobných údajov</title>
+
+<link rel="stylesheet" href="css/header.css">
+
 <style>
 body {
   margin: 0;
@@ -11,49 +15,71 @@ body {
   flex-direction: column;
   background-color: #4CAF50;
   font-family: Arial, sans-serif;
+  color: black;
   text-align: center;
 }
-header, footer {
-  background-color: #000;
+
+main {
+  flex: 1;
+  padding: 30px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+footer {
+  background-color: black;
   color: white;
   padding: 15px 0;
 }
-header a, footer a { color: white; margin: 0 10px; text-decoration: none; }
-main { flex: 1; padding: 30px; }
+
+footer a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
 </style>
 </head>
 
 <body>
 
-<header>
-  <a href="index.html">Domov</a>
-  <a href="AKO_TO_PREBIEHA.html">Ako to prebieha?</a>
-  <a href="TERMINY.html">Termíny</a>
-  <a href="O_NAS.html">O nás</a>
-  <a href="KONTAKT.html">Kontakt</a>
-</header>
+<!-- HEADER -->
+<div id="header-placeholder"></div>
 
 <main>
-<h1>Ochrana osobných údajov</h1>
+  <h1>Ochrana osobných údajov</h1>
 
-<p>Prevádzkovateľ spracúva osobné údaje v rozsahu: meno, vek, pohlavie a email.</p>
+  <p>
+    Prevádzkovateľ spracúva osobné údaje v súlade s nariadením GDPR.
+    Osobné údaje sú spracúvané výlučne za účelom organizácie
+    zoznamovacích podujatí.
+  </p>
 
-<p>Údaje sú spracované za účelom registrácie na speed dating podujatia.</p>
-
-<p>Údaje sú uchovávané najviac po dobu 12 mesiacov.</p>
-
-<p>Údaje nie sú poskytované tretím stranám.</p>
-
-<p>Dotknutá osoba má právo na prístup, opravu alebo vymazanie údajov.</p>
-
-<p>Kontakt: bratislavaspeeddating@gmail.com</p>
+  <p>
+    Osobné údaje nie sú poskytované tretím stranám a sú uchovávané
+    iba po nevyhnutne potrebnú dobu.
+  </p>
 </main>
 
 <footer>
-<p>
-
-</p>
+  <p>
+    <a href="OBCHODNE_PODMIENKY.html">Obchodné podmienky</a> |
+    <a href="OCHRANA_OSOBNYCH_UDAJOV.html">Ochrana osobných údajov</a>
+  </p>
 </footer>
+
+<script src="js/header.js" defer></script>
+
+<script>
+fetch("header.html")
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById("header-placeholder").innerHTML = data;
+  });
+</script>
 
 </body>
 </html>
