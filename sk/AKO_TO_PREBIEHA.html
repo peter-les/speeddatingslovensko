@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AKO TO PREBIEHA</title>
 
+<link rel="stylesheet" href="css/header.css">
+
 <style>
 body {
   margin: 0;
@@ -13,94 +15,13 @@ body {
   flex-direction: column;
   background-color: #4CAF50;
   font-family: Arial, sans-serif;
+  text-align: center;
   color: black;
 }
 
-/* ================= HEADER ================= */
-header {
-  background-color: black;
-  color: white;
-  padding: 15px 30px;
-  display: flex;
-  align-items: center;
-}
-
-/* LOGO */
-.logo {
-  display: flex;
-  align-items: center;
-}
-
-.logo img {
-  height: 40px;
-  margin-right: 10px;
-}
-
-.logo-text {
-  font-size: 16px;
-  line-height: 1.1;
-  font-weight: bold;
-  text-align: left;
-}
-
-/* MENU */
-nav {
-  margin-left: auto;
-}
-
-nav a {
-  color: white;
-  margin: 0 10px;
-  text-decoration: none;
-  font-size: 16px;
-}
-
-nav a:hover {
-  text-decoration: underline;
-}
-
-/* HAMBURGER */
-.hamburger {
-  display: none;
-  font-size: 28px;
-  cursor: pointer;
-  margin-left: auto;
-}
-
-/* ================= MOBILE ================= */
-@media (max-width: 768px) {
-
-  nav {
-    display: none;
-    position: absolute;
-    top: 70px;
-    right: 0;
-    background-color: black;
-    width: 100%;
-    text-align: center;
-    padding: 15px 0;
-  }
-
-  nav a {
-    display: block;
-    margin: 12px 0;
-    font-size: 18px;
-  }
-
-  nav.show {
-    display: block;
-  }
-
-  .hamburger {
-    display: block;
-  }
-}
-
-/* ================= CONTENT ================= */
 main {
   flex: 1;
   padding: 30px;
-  text-align: center;
 }
 
 ul {
@@ -114,12 +35,10 @@ li {
   margin-bottom: 10px;
 }
 
-/* ================= FOOTER ================= */
 footer {
   background-color: black;
   color: white;
   padding: 15px 0;
-  text-align: center;
 }
 
 footer a {
@@ -136,35 +55,15 @@ footer a:hover {
 
 <body>
 
-<header>
-  <!-- LOGO -->
-  <div class="logo">
-    <img src="../images/List.png" alt="Logo">
-    <div class="logo-text">
-      Zoznamka<br>
-      Petra a Pavla
-    </div>
-  </div>
-
-  <!-- HAMBURGER -->
-  <div class="hamburger" onclick="toggleMenu()">☰</div>
-
-  <!-- NAVIGÁCIA -->
-  <nav id="menu">
-    <a href="index.html">Domov</a>
-    <a href="AKO_TO_PREBIEHA.html">Ako to prebieha?</a>
-    <a href="TERMINY.html">Termíny</a>
-    <a href="O_NAS.html">O nás</a>
-    <a href="KONTAKT.html">Kontakt</a>
-  </nav>
-</header>
+<!-- HEADER -->
+<div id="header-placeholder"></div>
 
 <main>
 
 <h1>Čo je speed dating?</h1>
 
 <ul>
-<li>Speed dating, v preklade Rýchle rande, sú zoznamovacie večery pri ktorých sa zoznamujete osobne so všetkými osobami opačného pohlavia, ktoré na zoznamovací večer prídu.</li>
+<li>Speed dating sú zoznamovacie večery pri ktorých sa zoznamujete osobne so všetkými osobami opačného pohlavia, ktoré na zoznamovací večer prídu.</li>
 <li>U nás to v súčasnoti sú spravidla 4 až 8 ľudí opačného pohlavia.</li>
 <li>Po krátkom čase osobného rozhovoru vo dvojici sa musíte rozhodnút či sa s danou osobou chcete v budúcnosti ešte stretnúť.</li>
 <li>Ak áno, zapíšte to na papier a v prípade zhody Vám moderátor po skončení večera obidvom pošle kontakty aby ste ďalej mohli stretávať už samostatne.</li>
@@ -185,7 +84,6 @@ footer a:hover {
 <li>Papiere moderátor na konci večera pozbiera.</li>
 <li>Po skončení večera Vám moderátor pri zhode mien obidvom pošle kontakty.</li>
 </ul>
-
 </main>
 
 <footer>
@@ -195,10 +93,13 @@ footer a:hover {
   </p>
 </footer>
 
+<script src="js/header.js" defer></script>
 <script>
-function toggleMenu() {
-  document.getElementById("menu").classList.toggle("show");
-}
+fetch("header.html")
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById("header-placeholder").innerHTML = data;
+  });
 </script>
 
 </body>
