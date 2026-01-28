@@ -16,19 +16,58 @@ body {
   color: black;
 }
 
-header, footer {
+/* HLAVIČKA */
+header {
   background-color: black;
   color: white;
-  padding: 15px 0;
+  padding: 15px 30px;
+  display: flex;
+  align-items: center;
 }
 
-header a, footer a {
+/* LOGO */
+.logo {
+  display: flex;
+  align-items: center;
+  margin-right: 40px;
+  text-align: left;
+}
+
+.logo img {
+  height: 40px;
+  margin-right: 10px;
+}
+
+.logo-text {
+  font-size: 16px;
+  line-height: 1.1;
+  font-weight: bold;
+}
+
+/* MENU */
+nav a {
   color: white;
   margin: 0 10px;
   text-decoration: none;
 }
 
-header a:hover, footer a:hover {
+nav a:hover {
+  text-decoration: underline;
+}
+
+footer {
+  background-color: black;
+  color: white;
+  padding: 15px 0;
+}
+
+footer a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+footer a:hover {
   text-decoration: underline;
 }
 
@@ -42,18 +81,30 @@ main {
 <body>
 
 <header>
-  <a href="index.html">Domov</a>
-  <a href="AKO_TO_PREBIEHA.html">Ako to prebieha?</a>
-  <a href="TERMINY.html">Termíny</a>
-  <a href="O_NAS.html">O nás</a>
-  <a href="KONTAKT.html">Kontakt</a>
+  <!-- LOGO VLAVO -->
+  <div class="logo">
+    <img src="../images/List.png" alt="Logo">
+    <div class="logo-text">
+      Zoznamka<br>
+      Petra a Pavla
+    </div>
+  </div>
+
+  <!-- NAVIGÁCIA -->
+  <nav>
+    <a href="index.html">Domov</a>
+    <a href="AKO_TO_PREBIEHA.html">Ako to prebieha?</a>
+    <a href="TERMINY.html">Termíny</a>
+    <a href="O_NAS.html">O nás</a>
+    <a href="KONTAKT.html">Kontakt</a>
+  </nav>
 </header>
 
 <main>
 
 <h1>TOTO JE NAJLACNEJŠÍ SPEED DATING V BRATISLAVE !</h1>
 
-  <div style="text-align: center;">
+<div style="text-align: center;">
   <div style="display: inline-block; text-align: left; font-size: 20px;">
     Ženy: 3,9 Eur (26-36 rokov) alebo 9,9 Eur (36-46 rokov).<br>
     Muži: 9,9 Eur (26-36 rokov aj 36-46 rokov).
@@ -61,10 +112,9 @@ main {
 </div>
 
 <div style="margin-top: 20px;">
-    <img src="../images/UvodnyObrazok5.png" alt="Úvodný obrázok" style="max-width: 250px; height: auto;">
-  </div>
+  <img src="../images/UvodnyObrazok5.png" alt="Úvodný obrázok" style="max-width: 250px; height: auto;">
 </div>
-    
+
 </main>
 
 <footer>
