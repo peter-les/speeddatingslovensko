@@ -165,7 +165,7 @@ function setupForm(formId, groupKey) {
     const hasPayment = Object.values(payments).some(p => p.paid);
 
     if(!hasPayment) {
-      alert("Najprv je potrebné zaplatiť cez príslušný Stripe link.");
+      alert("Najprv je potrebné zaplatiť.");
       return;
     }
 
