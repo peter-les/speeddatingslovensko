@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy</title>
+
+<link rel="stylesheet" href="css/header.css">
+
+<style>
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #4CAF50;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  color: black;
+}
+
+main {
+  flex: 1;
+  padding: 30px;
+}
+
+footer {
+  background-color: black;
+  color: white;
+  padding: 15px 0;
+}
+
+footer a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div id="header-placeholder"></div>
+
+<main>
+<h1>Privacy Policy</h1>
+
+<p>The operator processes personal data including: first name, last name, age, gender, and email.</p>
+
+<p>Data is processed for the purpose of registration for speed dating events.</p>
+
+<p>Data is stored for a maximum of 12 months.</p>
+
+<p>Data is not shared with third parties.</p>
+
+<p>The data subject has the right to access, correct, or delete their data.</p>
+
+<p>Contact: bratislavaspeeddating@gmail.com</p>
+</main>
+
+<footer>
+  <p>
+    <a href="TERMS_AND_CONDITIONS.html">Terms and Conditions</a> |
+    <a href="PRIVACY_POLICY.html">Privacy Policy</a>
+  </p>
+</footer>
+
+<script src="js/header.js" defer></script>
+<script>
+fetch("header.html")
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById("header-placeholder").innerHTML = data;
+  });
+</script>
+
+</body>
+</html>
