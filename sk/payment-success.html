@@ -3,28 +3,109 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Platba úspešná</title>
+<title>Registrácia - Speed Dating Bratislava</title>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<link rel="stylesheet" href="css/header.css">
+
 <style>
-body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background-color: #4CAF50; color: white; }
-a { color: white; text-decoration: underline; }
+body { background-color: #4CAF50; color: black; text-align: center; font-family: Arial, sans-serif; margin:0; padding:0; min-height:100vh; display:flex; flex-direction:column; }
+main { flex: 1; padding: 20px; }
+form { margin-top: 15px; display:none; }
+form input, form select, form input[type="submit"] { padding:5px; margin:5px 0; width: 90%; font-size:1em; }
+button { cursor:pointer; }
 </style>
 </head>
 <body>
-<h1>✅ Platba prebehla úspešne!</h1>
-<p>Teraz sa môžete vrátiť na stránku <a href="TERMINY.html">TERMINY</a> a vyplniť údaje pre registráciu.</p>
 
+<div id="header-placeholder"></div>
+
+<main>
+  <h1>Registrácia po platbe</h1>
+  <p id="info-msg">Najprv je potrebné zaplatiť. Po úspešnej platbe sa zobrazí formulár.</p>
+
+  <form id="registration-form">
+    <input type="text" name="name" placeholder="Krstné meno" required><br>
+    <input type="text" name="surname" placeholder="Priezvisko" required><br>
+    <input type="number" name="age" placeholder="Vek" required><br>
+    <select name="gender" required>
+      <option value="">Pohlavie</option>
+      <option value="muzi">Muž</option>
+      <option value="zeny">Žena</option>
+    </select><br>
+    <input type="submit" value="Registrovať">
+  </form>
+</main>
+
+<footer>
+  <p>
+    <a href="OBCHODNE_PODMIENKY.html" style="color:white;">Obchodné podmienky</a> |
+    <a href="OCHRANA_OSOBNYCH_UDAJOV.html" style="color:white;">Ochrana osobných údajov</a>
+  </p>
+</footer>
+
+<script src="js/header.js" defer></script>
 <script>
-// Získanie parametrov z URL
-const urlParams = new URLSearchParams(window.location.search);
-const groupKey = urlParams.get('groupKey');
-const gender = urlParams.get('gender');
-const sessionId = urlParams.get('session_id');
+fetch("header.html")
+  .then(response => response.text())
+  .then(data => { document.getElementById("header-placeholder").innerHTML = data; });
 
-if(groupKey && gender && sessionId) {
-  // Uložíme do sessionStorage aby sa formulár zobrazil len tomuto používateľovi
-  const key = `stripe_session_${groupKey}_${gender}`;
-  sessionStorage.setItem(key, sessionId);
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyBWuOkOK_ViW3Byns3h5LdZ5NFrPjSo_jM",
+  authDomain: "speeddatingslovakia.firebaseapp.com",
+  databaseURL: "https://speeddatingslovakia-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "speeddatingslovakia",
+  storageBucket: "speeddatingslovakia.firebasestorage.app",
+  messagingSenderId: "1085212330025",
+  appId: "1:1085212330025:web:de6bccf7b2ddf28df8f438"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+// Pomocna funkcia na prečítanie parametrov z URL
+function getURLParam(param) {
+  return new URLSearchParams(window.location.search).get(param);
 }
+
+// Získanie údajov z URL
+const sessionId = getURLParam('session_id');
+const groupKey = getURLParam('groupKey');
+const genderParam = getURLParam('gender');
+
+if(sessionId && groupKey && genderParam) {
+  const paymentRef = db.ref(`payments_${groupKey}_${genderParam}`);
+  paymentRef.once('value').then(snapshot => {
+    const payments = snapshot.val() || {};
+    const hasPayment = Object.values(payments).some(p => p.paid);
+
+    if(hasPayment) {
+      document.getElementById('info-msg').textContent = "✅ Platba overená! Teraz môžete vyplniť údaje pre registráciu.";
+      document.getElementById('registration-form').style.display = 'block';
+    } else {
+      document.getElementById('info-msg').textContent = "Platba ešte nebola zaznamenaná. Skontrolujte, či ste zaplatili správnym linkom.";
+    }
+  });
+}
+
+// Registrácia po platbe
+document.getElementById('registration-form').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const name = this.name.value.trim();
+  const surname = this.surname.value.trim();
+  const age = parseInt(this.age.value);
+  const gender = this.gender.value;
+
+  if(!name || !surname || !age || !gender) return;
+
+  const regRef = db.ref('registracie_' + groupKey);
+  await regRef.push({ name, surname, age, gender, timestamp: Date.now() });
+
+  alert('✅ Registrácia úspešná!');
+  this.reset();
+});
 </script>
+
 </body>
 </html>
