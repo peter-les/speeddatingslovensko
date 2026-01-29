@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registration - Speed Dating Bratislava</title>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<link rel="stylesheet" href="../css/header.css">
+<style>
+body { background-color: #4CAF50; color: black; text-align: center; font-family: Arial, sans-serif; margin:0; padding:0; min-height:100vh; display:flex; flex-direction:column; }
+main { flex: 1; padding: 20px; }
+form { margin-top: 15px; display:none; }
+form input, form select, form input[type="submit"] { padding:5px; margin:5px 0; width: 90%; font-size:1em; }
+button { cursor:pointer; }
+</style>
+</head>
+<body>
+
+<div id="header-placeholder"></div>
+
+<main>
+  <h1>Registration after Payment</h1>
+  <p id="info-msg">Please pay first. The form will appear after successful payment.</p>
+
+  <form id="registration-form">
+    <input type="text" name="name" placeholder="First name" required><br>
+    <input type="text" name="surname" placeholder="Last name" required><br>
+    <input type="number" name="age" placeholder="Age" required><br>
+    <select name="gender" required>
+      <option value="">Gender</option>
+      <option value="muzi">Male</option>
+      <option value="zeny">Female</option>
+    </select><br>
+    <input type="submit" value="Register">
+  </form>
+</main>
+
+<footer>
+  <p>
+    <a href="../TERMS_AND_CONDITIONS.html" style="color:white;">Terms & Conditions</a> |
+    <a href="../PRIVACY_POLICY.html" style="color:white;">Privacy Policy</a>
+  </p>
+</footer>
+
+<script src="../js/header.js" defer></script>
+<script>
+fetch("../header.html")
+  .then(response => response.text())
+  .then(data => { document.getElementById("header-placeholder").innerHTML = data; });
+
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyBWuOkOK_ViW3Byns3h5LdZ5NFrPjSo_jM",
+  authDomain: "speeddatingslovakia.firebaseapp.com",
+  databaseURL: "https://speeddatingslovakia-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "speeddatingslovakia",
+  storageBucket: "speeddatingslovakia.firebasestorage.app",
+  messagingSenderId: "1085212330025",
+  appId: "1:1085212330025:web:de6bccf7b2ddf28df8f438"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+function getURLParam(param) {
+  return new URLSearchParams(window.location.search).get(param);
+}
+
+const sessionId = getURLParam('session_id');
+const groupKey = getURLParam('groupKey');
+const genderParam = getURLParam('gender');
+
+if(sessionId && groupKey && genderParam) {
+  const paymentRef = db.ref(`payments_${groupKey}_${genderParam}`);
+  paymentRef.once('value').then(snapshot => {
+    const payments = snapshot.val() || {};
+    const hasPayment = Object.values(payments).some(p => p.paid);
+
+    if(hasPayment) {
+      document.getElementById('info-msg').textContent = "✅ Payment confirmed! You can now fill in the registration form.";
+      document.getElementById('registration-form').style.display = 'block';
+    } else {
+      document.getElementById('info-msg').textContent = "Payment has not been recorded yet. Please check you paid using the correct link.";
+    }
+  });
+}
+
+document.getElementById('registration-form').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const name = this.name.value.trim();
+  const surname = this.surname.value.trim();
+  const age = parseInt(this.age.value);
+  const gender = this.gender.value;
+
+  if(!name || !surname || !age || !gender) return;
+
+  const regRef = db.ref('registracie_' + groupKey);
+  await regRef.push({ name, surname, age, gender, timestamp: Date.now() });
+
+  alert('✅ Registration successful!');
+  this.reset();
+});
+</script>
+
+</body>
+</html>
