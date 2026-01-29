@@ -30,7 +30,6 @@ form input[type="text"], form input[type="number"], form select { padding: 5px; 
 footer { background-color: black; color: white; padding: 15px 0; }
 footer a { color: white; margin: 0 10px; text-decoration: none; }
 footer a:hover { text-decoration: underline; }
-p.payment-note { font-size: 0.9em; color: red; }
 </style>
 </head>
 <body>
@@ -56,10 +55,14 @@ p.payment-note { font-size: 0.9em; color: red; }
         <strong>Adresa:</strong> Zochova 6/8 <br>
         <strong>Mesto:</strong> Bratislava
       </div>
-      <a id="payment_26_36_men" href="https://buy.stripe.com/7sY00i66Pe8Z5Xd9h19EI03" target="_blank">Platba muži 9,9 €</a><br>
-      <a id="payment_26_36_women" href="https://buy.stripe.com/14AaEW9j16Gxadtctd9EI01" target="_blank">Platba ženy 3,9 €</a><br><br>
-      
-      <form id="form26_36">
+
+      <!-- Platba -->
+      <a id="payment_26_36_men" href="https://buy.stripe.com/live_link_muzi" target="_blank">Platba muži 9,9 €</a><br>
+      <a id="payment_26_36_women" href="https://buy.stripe.com/live_link_zeny" target="_blank">Platba ženy 3,9 €</a><br><br>
+      <p>Registrácia nasleduje až po úspešnej platbe.</p>
+
+      <!-- Formulár sa zobrazí až po platbe -->
+      <form id="form26_36" style="display:none;">
         <input type="text" name="name" placeholder="Krstné meno" required><br>
         <input type="text" name="surname" placeholder="Priezvisko" required><br>
         <input type="number" name="age" placeholder="Vek" required><br>
@@ -69,9 +72,6 @@ p.payment-note { font-size: 0.9em; color: red; }
           <option value="zeny">Žena</option>
         </select><br>
         <input type="submit" value="Registrovať">
-        <p class="payment-note">
-          
-        </p>
       </form>
     </div>
 
@@ -88,10 +88,14 @@ p.payment-note { font-size: 0.9em; color: red; }
         <strong>Adresa:</strong> Zochova 6/8 <br>
         <strong>Mesto:</strong> Bratislava
       </div>
-      <a id="payment_36_46_men" href="https://buy.stripe.com/9B6bJ0br93ul3P52SD9EI02" target="_blank">Platba muži 9,9 €</a><br>
-      <a id="payment_36_46_women" href="https://buy.stripe.com/3cIeVc0Mvd4V5XdeBl9EI00" target="_blank">Platba ženy 9,9 €</a><br><br>
-      
-      <form id="form36_46">
+
+      <!-- Platba -->
+      <a id="payment_36_46_men" href="https://buy.stripe.com/live_link_muzi" target="_blank">Platba muži 9,9 €</a><br>
+      <a id="payment_36_46_women" href="https://buy.stripe.com/live_link_zeny" target="_blank">Platba ženy 9,9 €</a><br><br>
+      <p>Registrácia nasleduje až po úspešnej platbe.</p>
+
+      <!-- Formulár sa zobrazí až po platbe -->
+      <form id="form36_46" style="display:none;">
         <input type="text" name="name" placeholder="Krstné meno" required><br>
         <input type="text" name="surname" placeholder="Priezvisko" required><br>
         <input type="number" name="age" placeholder="Vek" required><br>
@@ -101,9 +105,6 @@ p.payment-note { font-size: 0.9em; color: red; }
           <option value="zeny">Žena</option>
         </select><br>
         <input type="submit" value="Registrovať">
-        <p class="payment-note">
-         
-        </p>
       </form>
     </div>
 
@@ -125,19 +126,20 @@ fetch("header.html")
     document.getElementById("header-placeholder").innerHTML = data;
   });
 
-// Zobrazenie voľných miest
+// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyBWuOkOK_ViW3Byns3h5LdZ5NFrPjSo_jM",
   authDomain: "speeddatingslovakia.firebaseapp.com",
   databaseURL: "https://speeddatingslovakia-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "speeddatingslovakia",
-  storageBucket: "speeddatingslovakia.firebasedatabase.app",
+  storageBucket: "speeddatingslovakia.firebasestorage.app",
   messagingSenderId: "1085212330025",
   appId: "1:1085212330025:web:de6bccf7b2ddf28df8f438"
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
+// Zobrazenie voľných miest
 function loadSeats() {
   db.ref('volne_miesta_26_36').once('value').then(snapshot => {
     const data = snapshot.val() || { muzi: 8, zeny: 8 };
@@ -153,11 +155,46 @@ function loadSeats() {
 
 loadSeats();
 
-// Registrácia iba upozornenie (live režim)
+// Zobrazenie formulára až po úspešnej platbe
+function checkPaymentAndShowForm(groupKey) {
+  ['muzi', 'zeny'].forEach(async gender => {
+    const paymentRef = db.ref(`payments_${groupKey}_${gender}`);
+    const snapshot = await paymentRef.once('value');
+    const payments = snapshot.val() || {};
+    const hasPayment = Object.values(payments).some(p => p.paid);
+
+    if (hasPayment) {
+      const form = document.getElementById(`form${groupKey.replace('_','_')}`);
+      form.style.display = 'block';
+    }
+  });
+}
+
+checkPaymentAndShowForm('26_36');
+checkPaymentAndShowForm('36_46');
+
+// Registrácia po platbe
 function setupForm(formId, groupKey) {
-  document.getElementById(formId).addEventListener('submit', function(e){
+  document.getElementById(formId).addEventListener('submit', async function(e){
     e.preventDefault();
-    alert("Registrácia bude zaznamenaná až po úspešnej platbe. Najprv prosím kliknite na tlačidlo platby a dokončite transakciu.");
+    const name = this.name.value.trim();
+    const surname = this.surname.value.trim();
+    const age = parseInt(this.age.value);
+    const gender = this.gender.value;
+
+    if(!name || !surname || !age || !gender) return;
+
+    const regRef = db.ref('registracie_' + groupKey);
+    await regRef.push({
+      name,
+      surname,
+      age,
+      gender,
+      timestamp: Date.now()
+    });
+
+    alert('✅ Registrácia úspešná!');
+    loadSeats();
     this.reset();
   });
 }
