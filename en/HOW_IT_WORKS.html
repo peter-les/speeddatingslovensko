@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HOW IT WORKS</title>
+
+<link rel="stylesheet" href="css/header.css">
+
+<style>
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #4CAF50;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  color: black;
+}
+
+main {
+  flex: 1;
+  padding: 30px;
+}
+
+ul {
+  list-style-type: disc;
+  padding-left: 40px;
+  text-align: left;
+  display: inline-block;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+footer {
+  background-color: black;
+  color: white;
+  padding: 15px 0;
+}
+
+footer a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div id="header-placeholder"></div>
+
+<main>
+
+<h1>What is speed dating?</h1>
+
+<ul>
+<li>Speed dating are dating evenings where you meet in person all participants of the opposite gender who attend the event.</li>
+<li>Currently, we usually have 4 to 8 people of the opposite gender at our events.</li>
+<li>After a short personal conversation in pairs, you must decide if you want to meet this person again in the future.</li>
+<li>If yes, write it on paper, and in case of a mutual match, the moderator will send both of you the contacts after the event so you can continue meeting independently.</li>
+</ul>
+
+<h1>How does it work with us?</h1>
+
+<ul>
+<li>At the beginning, the moderator/organizer will greet you and ask for your first name.<br>
+(In case of multiple matches, also your surname)</li>
+<li>You will receive a paper with your first name, which you carry with you throughout the evening.<br>
+(Bring your own paper for notes you want to take home)</li>
+<li>Pens are prepared at eight tables.</li>
+<li>Women sit at the tables and men sit opposite them.</li>
+<li>After 6 minutes, a bell rings and men move one seat to the next table.</li>
+<li>You have 6 minutes to decide whether you want to meet this person again in the future.</li>
+<li>Write the names of the people you want to meet again on the paper.</li>
+<li>The moderator will collect all papers at the end of the evening.</li>
+<li>After the event, if there is a mutual match, the moderator will send the contacts to both parties.</li>
+</ul>
+</main>
+
+<footer>
+  <p>
+    <a href="TERMS_AND_CONDITIONS.html">Terms and Conditions</a> |
+    <a href="PRIVACY_POLICY.html">Privacy Policy</a>
+  </p>
+</footer>
+
+<script src="js/header.js" defer></script>
+<script>
+fetch("header.html")
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById("header-placeholder").innerHTML = data;
+  });
+</script>
+
+</body>
+</html>
