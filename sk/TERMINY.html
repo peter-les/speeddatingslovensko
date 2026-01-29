@@ -56,8 +56,10 @@ footer a:hover { text-decoration: underline; }
         <strong>Adresa:</strong> Zochova 6/8 <br>
         <strong>Mesto:</strong> Bratislava
       </div>
-      <a id="payment_26_36_men" href="https://buy.stripe.com/7sY00i66Pe8Z5Xd9h19EI03" target="_blank">Platba muži 9,9 €</a><br>
-      <a id="payment_26_36_women" href="https://buy.stripe.com/14AaEW9j16Gxadtctd9EI01" target="_blank">Platba ženy 3,9 €</a><br>
+
+      <!-- Live Stripe linky s parametrami -->
+      <a id="payment_26_36_men" href="https://buy.stripe.com/7sY00i66Pe8Z5Xd9h19EI03?groupKey=26_36&gender=muzi" target="_blank">Platba muži 9,9 €</a><br>
+      <a id="payment_26_36_women" href="https://buy.stripe.com/14AaEW9j16Gxadtctd9EI01?groupKey=26_36&gender=zeny" target="_blank">Platba ženy 3,9 €</a><br>
       <p>Registrácia nasleduje až po platbe.</p>
       
       <form id="form26_36">
@@ -86,8 +88,9 @@ footer a:hover { text-decoration: underline; }
         <strong>Adresa:</strong> Zochova 6/8 <br>
         <strong>Mesto:</strong> Bratislava
       </div>
-      <a id="payment_36_46_men" href="https://buy.stripe.com/9B6bJ0br93ul3P52SD9EI02" target="_blank">Platba muži 9,9 €</a><br>
-      <a id="payment_36_46_women" href="https://buy.stripe.com/3cIeVc0Mvd4V5XdeBl9EI00" target="_blank">Platba ženy 9,9 €</a><br>
+
+      <a id="payment_36_46_men" href="https://buy.stripe.com/9B6bJ0br93ul3P52SD9EI02?groupKey=36_46&gender=muzi" target="_blank">Platba muži 9,9 €</a><br>
+      <a id="payment_36_46_women" href="https://buy.stripe.com/3cIeVc0Mvd4V5XdeBl9EI00?groupKey=36_46&gender=zeny" target="_blank">Platba ženy 9,9 €</a><br>
       <p>Registrácia nasleduje až po platbe.</p>
 
       <form id="form36_46">
@@ -150,32 +153,21 @@ function loadSeats() {
 
 loadSeats();
 
-// Funkcia na kontrolu platby pre konkrétne session
-function checkPaymentAndShowForm(groupKey) {
-  ['muzi','zeny'].forEach(async gender => {
-    const sessionId = sessionStorage.getItem(`stripe_session_${groupKey}_${gender}`);
-    if (!sessionId) return;
-
-    const paymentRef = db.ref(`payments_${groupKey}_${gender}/${sessionId}`);
-    const snapshot = await paymentRef.once('value');
-    const payment = snapshot.val();
-
-    if(payment && payment.paid) {
-      const form = document.getElementById(`form${groupKey.replace('_','_')}`);
-      form.style.display = 'block';
-
-      const alertKey = `alert_shown_${groupKey}_${gender}_${sessionId}`;
-      if(!sessionStorage.getItem(alertKey)) {
-        alert('✅ Platba overená! Teraz môžete vyplniť údaje pre registráciu.');
-        sessionStorage.setItem(alertKey, 'true');
-      }
-    }
-  });
+// Zobrazenie formulára len po platbe
+function showFormIfPaid(groupKey, gender) {
+  const sessionKey = `stripe_session_${groupKey}_${gender}`;
+  if(sessionStorage.getItem(sessionKey)) {
+    const form = document.getElementById(`form${groupKey.replace('_','_')}`);
+    form.style.display = 'block';
+  }
 }
 
-// Skontroluj platby pri načítaní
-checkPaymentAndShowForm('26_36');
-checkPaymentAndShowForm('36_46');
+// Skontroluje obe pohlavia
+['26_36','36_46'].forEach(groupKey => {
+  ['muzi','zeny'].forEach(gender => {
+    showFormIfPaid(groupKey, gender);
+  });
+});
 
 // Registrácia po platbe
 function setupForm(formId, groupKey) {
@@ -185,24 +177,25 @@ function setupForm(formId, groupKey) {
     const surname = this.surname.value.trim();
     const age = parseInt(this.age.value);
     const gender = this.gender.value;
+
     if(!name || !surname || !age || !gender) return;
 
-    const sessionId = sessionStorage.getItem(`stripe_session_${groupKey}_${gender}`);
-    if(!sessionId) {
-      alert("Najprv je potrebné zaplatiť.");
-      return;
-    }
-
-    const paymentRef = db.ref(`payments_${groupKey}_${gender}/${sessionId}`);
-    const paymentSnapshot = await paymentRef.once('value');
-    const payment = paymentSnapshot.val();
-    if(!payment || !payment.paid) {
+    // Overenie platby podľa sessionStorage
+    const sessionKey = `stripe_session_${groupKey}_${gender}`;
+    if(!sessionStorage.getItem(sessionKey)) {
       alert("Najprv je potrebné zaplatiť.");
       return;
     }
 
     const regRef = db.ref('registracie_' + groupKey);
-    await regRef.push({ name, surname, age, gender, timestamp: Date.now() });
+    await regRef.push({
+      name,
+      surname,
+      age,
+      gender,
+      timestamp: Date.now()
+    });
+
     alert('✅ Registrácia úspešná!');
     loadSeats();
     this.reset();
