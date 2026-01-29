@@ -1,4 +1,4 @@
-<header>
+<header style="position: relative;">
   <div class="logo">
     <img src="../images/List.png" alt="Logo">
     <div class="logo-text">
@@ -9,7 +9,7 @@
 
   <div class="hamburger" onclick="toggleMenu()">☰</div>
 
-  <nav id="menu">
+  <nav id="menu" style="margin-right: 60px;"> <!-- Posunuté mierne doľava, aby sa EN nezakryl -->
     <a href="index.html">Domov</a>
     <a href="AKO_TO_PREBIEHA.html">Ako to prebieha?</a>
     <a href="TERMINY.html">Termíny</a>
@@ -18,7 +18,7 @@
   </nav>
 
   <!-- EN language button -->
-  <a href="/en/index.html" style="position:absolute; right:20px; top:15px; color:white; text-decoration:none; font-weight:bold;">
+  <a href="/en/index.html" style="position:absolute; right:20px; top:50%; transform: translateY(-50%); color:white; text-decoration:none; font-weight:bold;">
     EN
   </a>
 </header>
