@@ -155,7 +155,7 @@ function loadSeats() {
 
 loadSeats();
 
-// Zobrazenie formulára až po úspešnej platbe
+// Zobrazenie formulára a pop-up po úspešnej platbe
 function checkPaymentAndShowForm(groupKey) {
   ['muzi', 'zeny'].forEach(async gender => {
     const paymentRef = db.ref(`payments_${groupKey}_${gender}`);
@@ -165,7 +165,10 @@ function checkPaymentAndShowForm(groupKey) {
 
     if (hasPayment) {
       const form = document.getElementById(`form${groupKey.replace('_','_')}`);
-      form.style.display = 'block';
+      if (form.style.display === 'none') {
+        form.style.display = 'block';
+        alert('✅ Platba overená! Teraz môžete vyplniť údaje pre registráciu.');
+      }
     }
   });
 }
