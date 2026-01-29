@@ -1,4 +1,4 @@
-<header>
+<header style="position: relative;">
   <div class="logo">
     <img src="../images/List.png" alt="Logo">
     <div class="logo-text">
@@ -9,7 +9,7 @@
 
   <div class="hamburger" onclick="toggleMenu()">☰</div>
 
-  <nav id="menu">
+  <nav id="menu" style="margin-right: 60px;"> <!-- Posunuté mierne doľava, aby sa SK nezakryl -->
     <a href="index.html">Home</a>
     <a href="HOW_IT_WORKS.html">How it works</a>
     <a href="DATES.html">Dates</a>
@@ -18,7 +18,7 @@
   </nav>
 
   <!-- SK language button -->
-  <a href="/sk/index.html" style="position:absolute; right:20px; top:15px; color:white; text-decoration:none; font-weight:bold;">
+  <a href="../sk/index.html" style="position:absolute; right:20px; top:50%; transform: translateY(-50%); color:white; text-decoration:none; font-weight:bold;">
     SK
   </a>
 </header>
