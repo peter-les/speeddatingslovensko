@@ -203,8 +203,8 @@ function loadSeats() {
 
 loadSeats();
 
-// Registrácia po zaplatení s overením platby
-function setupForm(formId, groupKey) {
+// Registrácia po zaplatení s kontrolou Webhooku
+async function setupForm(formId, groupKey) {
   document.getElementById(formId).addEventListener('submit', async function(e){
     e.preventDefault();
     const name = this.name.value.trim();
@@ -216,26 +216,34 @@ function setupForm(formId, groupKey) {
 
     const seatRef = db.ref('volne_miesta_' + groupKey);
     const regRef = db.ref('registracie_' + groupKey);
+    const paymentRef = db.ref('payments_' + groupKey + '_' + gender);
 
-    // Overenie, či existuje platba (uložená Webhookom)
-    const seatsSnapshot = await seatRef.once('value');
-    const seats = seatsSnapshot.val() || { muzi: 0, zeny: 0 };
-
-    if(seats[gender] >= 0) { // Ak ešte boli miesta znížené pri platbe
-      // Uložíme registráciu
-      await regRef.push().set({
-        name,
-        surname,
-        age,
-        gender,
-        timestamp: Date.now()
-      });
-      alert('✅ Registrácia úspešná!');
-      loadSeats();
-      this.reset();
-    } else {
+    const paymentSnap = await paymentRef.once('value');
+    if(!paymentSnap.exists()) {
       alert('Najprv je potrebné zaplatiť cez príslušný Stripe link.');
+      return;
     }
+
+    // Platba existuje – uložíme registráciu
+    await regRef.push().set({
+      name,
+      surname,
+      age,
+      gender,
+      timestamp: Date.now()
+    });
+
+    // Znížime počet voľných miest
+    const seatsSnap = await seatRef.once('value');
+    const seats = seatsSnap.val() || { muzi: 0, zeny: 0 };
+    if(seats[gender] > 0) {
+      seats[gender]--;
+      await seatRef.set(seats);
+    }
+
+    alert('✅ Registrácia úspešná!');
+    loadSeats();
+    this.reset();
   });
 }
 
