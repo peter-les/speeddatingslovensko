@@ -217,9 +217,12 @@ function setupForm(formId, groupKey) {
       return;
     }
 
+    // Vytvoríme unikátny ID pre túto registráciu
+    const uniqueId = Date.now() + "_" + Math.floor(Math.random() * 10000);
+
     // Uložíme registráciu
-    const regRef = db.ref('registracie_' + groupKey);
-    await regRef.push({
+    const regRef = db.ref('registracie_' + groupKey + '/' + uniqueId);
+    await regRef.set({
       name,
       age,
       gender,
