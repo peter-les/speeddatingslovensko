@@ -27,6 +27,7 @@ main { flex: 1; padding: 20px; }
 button, form input[type="submit"] { margin-top: 10px; padding: 10px 15px; font-size: 1em; cursor: pointer; }
 .counter { font-weight: bold; margin-bottom: 10px; }
 form input[type="text"], form input[type="number"], form select { padding: 5px; margin: 5px 0; width: 90%; }
+form { display: none; margin-top: 15px; }
 footer { background-color: black; color: white; padding: 15px 0; }
 footer a { color: white; margin: 0 10px; text-decoration: none; }
 footer a:hover { text-decoration: underline; }
@@ -55,14 +56,11 @@ footer a:hover { text-decoration: underline; }
         <strong>Adresa:</strong> Zochova 6/8 <br>
         <strong>Mesto:</strong> Bratislava
       </div>
-
-      <!-- Platba -->
-      <a id="payment_26_36_men" href="https://buy.stripe.com/live_link_muzi" target="_blank">Platba muži 9,9 €</a><br>
-      <a id="payment_26_36_women" href="https://buy.stripe.com/live_link_zeny" target="_blank">Platba ženy 3,9 €</a><br><br>
-      <p>Registrácia nasleduje až po úspešnej platbe.</p>
-
-      <!-- Formulár sa zobrazí až po platbe -->
-      <form id="form26_36" style="display:none;">
+      <a id="payment_26_36_men" href="https://buy.stripe.com/7sY00i66Pe8Z5Xd9h19EI03" target="_blank">Platba muži 9,9 €</a><br>
+      <a id="payment_26_36_women" href="https://buy.stripe.com/14AaEW9j16Gxadtctd9EI01" target="_blank">Platba ženy 3,9 €</a><br>
+      <p>Registrácia nasleduje až po platbe.</p>
+      
+      <form id="form26_36">
         <input type="text" name="name" placeholder="Krstné meno" required><br>
         <input type="text" name="surname" placeholder="Priezvisko" required><br>
         <input type="number" name="age" placeholder="Vek" required><br>
@@ -88,14 +86,11 @@ footer a:hover { text-decoration: underline; }
         <strong>Adresa:</strong> Zochova 6/8 <br>
         <strong>Mesto:</strong> Bratislava
       </div>
+      <a id="payment_36_46_men" href="https://buy.stripe.com/9B6bJ0br93ul3P52SD9EI02" target="_blank">Platba muži 9,9 €</a><br>
+      <a id="payment_36_46_women" href="https://buy.stripe.com/3cIeVc0Mvd4V5XdeBl9EI00" target="_blank">Platba ženy 9,9 €</a><br>
+      <p>Registrácia nasleduje až po platbe.</p>
 
-      <!-- Platba -->
-      <a id="payment_36_46_men" href="https://buy.stripe.com/live_link_muzi" target="_blank">Platba muži 9,9 €</a><br>
-      <a id="payment_36_46_women" href="https://buy.stripe.com/live_link_zeny" target="_blank">Platba ženy 9,9 €</a><br><br>
-      <p>Registrácia nasleduje až po úspešnej platbe.</p>
-
-      <!-- Formulár sa zobrazí až po platbe -->
-      <form id="form36_46" style="display:none;">
+      <form id="form36_46">
         <input type="text" name="name" placeholder="Krstné meno" required><br>
         <input type="text" name="surname" placeholder="Priezvisko" required><br>
         <input type="number" name="age" placeholder="Vek" required><br>
@@ -155,7 +150,7 @@ function loadSeats() {
 
 loadSeats();
 
-// Zobrazenie formulára a pop-up po úspešnej platbe
+// Funkcia pre kontrolu platby a zobrazenie formulára (s alert raz na session)
 function checkPaymentAndShowForm(groupKey) {
   ['muzi', 'zeny'].forEach(async gender => {
     const paymentRef = db.ref(`payments_${groupKey}_${gender}`);
@@ -165,14 +160,19 @@ function checkPaymentAndShowForm(groupKey) {
 
     if (hasPayment) {
       const form = document.getElementById(`form${groupKey.replace('_','_')}`);
-      if (form.style.display === 'none') {
-        form.style.display = 'block';
+      form.style.display = 'block';
+
+      // Alert iba raz na session
+      const key = `alert_shown_${groupKey}_${gender}`;
+      if (!sessionStorage.getItem(key)) {
         alert('✅ Platba overená! Teraz môžete vyplniť údaje pre registráciu.');
+        sessionStorage.setItem(key, 'true');
       }
     }
   });
 }
 
+// Skontroluj platby pri načítaní
 checkPaymentAndShowForm('26_36');
 checkPaymentAndShowForm('36_46');
 
@@ -186,6 +186,16 @@ function setupForm(formId, groupKey) {
     const gender = this.gender.value;
 
     if(!name || !surname || !age || !gender) return;
+
+    const paymentRef = db.ref(`payments_${groupKey}_${gender}`);
+    const paymentSnapshot = await paymentRef.once('value');
+    const payments = paymentSnapshot.val() || {};
+    const hasPayment = Object.values(payments).some(p => p.paid);
+
+    if(!hasPayment) {
+      alert("Najprv je potrebné zaplatiť.");
+      return;
+    }
 
     const regRef = db.ref('registracie_' + groupKey);
     await regRef.push({
