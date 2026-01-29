@@ -4,100 +4,37 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DATES - Speed Dating Bratislava</title>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-
-<link rel="stylesheet" href="css/header.css">
-
+<link rel="stylesheet" href="../css/header.css">
 <style>
-body {
-  background-color: #4CAF50;
-  color: black;
-  text-align: center;
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
+body { background-color: #4CAF50; color: black; text-align: center; font-family: Arial, sans-serif; margin:0; padding:0; min-height:100vh; display:flex; flex-direction:column; }
 main { flex: 1; padding: 20px; }
-.flex-container { display: flex; justify-content: center; flex-wrap: wrap; gap: 40px; margin-bottom: 40px; }
-.column { background-color: #4CAF50; padding: 20px; border-radius: 10px; text-align: center; min-width: 250px; }
-button, form input[type="submit"] { margin-top: 10px; padding: 10px 15px; font-size: 1em; cursor: pointer; }
-.counter { font-weight: bold; margin-bottom: 10px; }
-form input[type="text"], form input[type="number"], form select { padding: 5px; margin: 5px 0; width: 90%; }
-footer { background-color: black; color: white; padding: 15px 0; }
-footer a { color: white; margin: 0 10px; text-decoration: none; }
-footer a:hover { text-decoration: underline; }
+.flex-container { display:flex; justify-content:center; flex-wrap:wrap; gap:40px; margin-bottom:40px; }
+.column { background-color: #4CAF50; padding: 20px; border-radius: 10px; text-align:center; min-width:250px; }
+a { display:block; margin:5px 0; font-weight:bold; color:black; text-decoration:none; }
+a:hover { text-decoration:underline; }
+p { font-weight:bold; }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <div id="header-placeholder"></div>
 
 <main>
   <h1>Upcoming Dates:</h1>
-
   <div class="flex-container">
 
-    <!-- 26-36 years -->
     <div class="column" id="group26_36">
-      <h2>Age group 26-36 (Friday evening)</h2>
-      <div class="counter">
-        Free spots men: <span id="free_men_26_36">0</span><br>
-        Free spots women: <span id="free_women_26_36">0</span>
-      </div>
-      <div style="margin: 15px 0;">
-        <strong>Date:</strong> 13.02.2026 <br>
-        <strong>Time:</strong> 18:00 - 19:00<br>
-        <strong>Address:</strong> Zochova 6/8 <br>
-        <strong>City:</strong> Bratislava
-      </div>
-      <a id="payment_26_36_men" href="https://buy.stripe.com/test_7sY9AS2ObfKh2mH2Crc7u00" target="_blank">Payment men €9.9</a><br>
-      <a id="payment_26_36_women" href="https://buy.stripe.com/test_4gMfZgbkHapXgdxa4Tc7u02" target="_blank">Payment women €3.9</a><br><br>
-      
-      <form id="form26_36">
-        <input type="text" name="name" placeholder="First Name" required><br>
-        <input type="text" name="surname" placeholder="Last Name" required><br>
-        <input type="number" name="age" placeholder="Age" required><br>
-        <select name="gender" required>
-          <option value="">Gender</option>
-          <option value="muzi">Male</option>
-          <option value="zeny">Female</option>
-        </select><br>
-        <input type="submit" value="Register (after payment only)">
-      </form>
+      <h2>Age group 26-36 years (Friday evening)</h2>
+      <a href="https://buy.stripe.com/7sY00i66Pe8Z5Xd9h19EI03" target="_blank">Payment men €9.9</a>
+      <a href="https://buy.stripe.com/14AaEW9j16Gxadtctd9EI01" target="_blank">Payment women €3.9</a>
+      <p>Registration follows after payment.</p>
     </div>
 
-    <!-- 36-46 years -->
     <div class="column" id="group36_46">
-      <h2>Age group 36-46 (Saturday evening)</h2>
-      <div class="counter">
-        Free spots men: <span id="free_men_36_46">0</span><br>
-        Free spots women: <span id="free_women_36_46">0</span>
-      </div>
-      <div style="margin: 15px 0;">
-        <strong>Date:</strong> 14.02.2026<br>
-        <strong>Time:</strong> 18:00 - 19:00<br>
-        <strong>Address:</strong> Zochova 6/8 <br>
-        <strong>City:</strong> Bratislava
-      </div>
-      <a id="payment_36_46_men" href="https://buy.stripe.com/test_dRm6oGewTeGdaTdfpdc7u01" target="_blank">Payment men €9.9</a><br>
-      <a id="payment_36_46_women" href="https://buy.stripe.com/test_cNi9ASagD2Xv4uPfpdc7u03" target="_blank">Payment women €9.9</a><br><br>
-      
-      <form id="form36_46">
-        <input type="text" name="name" placeholder="First Name" required><br>
-        <input type="text" name="surname" placeholder="Last Name" required><br>
-        <input type="number" name="age" placeholder="Age" required><br>
-        <select name="gender" required>
-          <option value="">Gender</option>
-          <option value="muzi">Male</option>
-          <option value="zeny">Female</option>
-        </select><br>
-        <input type="submit" value="Register (after payment only)">
-      </form>
+      <h2>Age group 36-46 years (Saturday evening)</h2>
+      <a href="https://buy.stripe.com/9B6bJ0br93ul3P52SD9EI02" target="_blank">Payment men €9.9</a>
+      <a href="https://buy.stripe.com/3cIeVc0Mvd4V5XdeBl9EI00" target="_blank">Payment women €9.9</a>
+      <p>Registration follows after payment.</p>
     </div>
 
   </div>
@@ -105,89 +42,16 @@ footer a:hover { text-decoration: underline; }
 
 <footer>
   <p>
-    <a href="TERMS_AND_CONDITIONS.html" style="color:white;">Terms and Conditions</a> |
-    <a href="PRIVACY_POLICY.html" style="color:white;">Privacy Policy</a>
+    <a href="../OBCHODNE_PODMIENKY.html" style="color:white;">Terms & Conditions</a> |
+    <a href="../OCHRANA_OSOBNYCH_UDAJOV.html" style="color:white;">Privacy Policy</a>
   </p>
 </footer>
 
-<script src="js/header.js" defer></script>
+<script src="../js/header.js" defer></script>
 <script>
-fetch("header.html")
-  .then(response => response.text())
-  .then(data => {
-    document.getElementById("header-placeholder").innerHTML = data;
-  });
-
-// Firebase config
-const firebaseConfig = {
-  apiKey: "AIzaSyBWuOkOK_ViW3Byns3h5LdZ5NFrPjSo_jM",
-  authDomain: "speeddatingslovakia.firebaseapp.com",
-  databaseURL: "https://speeddatingslovakia-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "speeddatingslovakia",
-  storageBucket: "speeddatingslovakia.firebasestorage.app",
-  messagingSenderId: "1085212330025",
-  appId: "1:1085212330025:web:de6bccf7b2ddf28df8f438"
-};
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
-
-// Display free spots
-function loadSeats() {
-  db.ref('volne_miesta_26_36').once('value').then(snapshot => {
-    const data = snapshot.val() || { muzi: 8, zeny: 8 };
-    document.getElementById('free_men_26_36').textContent = data.muzi;
-    document.getElementById('free_women_26_36').textContent = data.zeny;
-  });
-  db.ref('volne_miesta_36_46').once('value').then(snapshot => {
-    const data = snapshot.val() || { muzi: 8, zeny: 8 };
-    document.getElementById('free_men_36_46').textContent = data.muzi;
-    document.getElementById('free_women_36_46').textContent = data.zeny;
-  });
-}
-
-loadSeats();
-
-// Registration after payment (check payments_{groupKey}_{gender})
-function setupForm(formId, groupKey) {
-  document.getElementById(formId).addEventListener('submit', async function(e){
-    e.preventDefault();
-    const name = this.name.value.trim();
-    const surname = this.surname.value.trim();
-    const age = parseInt(this.age.value);
-    const gender = this.gender.value;
-
-    if(!name || !surname || !age || !gender) return;
-
-    const paymentRef = db.ref(`payments_${groupKey}_${gender}`);
-    const paymentSnapshot = await paymentRef.once('value');
-    const payments = paymentSnapshot.val() || {};
-
-    const hasPayment = Object.values(payments).some(p => p.paid);
-
-    if(!hasPayment) {
-      alert("Please make the payment first.");
-      return;
-    }
-
-    // Save registration
-    const regRef = db.ref('registrations_' + groupKey);
-    await regRef.push({
-      name,
-      surname,
-      age,
-      gender,
-      timestamp: Date.now()
-    });
-
-    alert('✅ Registration successful!');
-    loadSeats();
-    this.reset();
-  });
-}
-
-setupForm('form26_36', '26_36');
-setupForm('form36_46', '36_46');
+fetch("../header.html").then(r=>r.text()).then(data=>{
+  document.getElementById("header-placeholder").innerHTML = data;
+});
 </script>
-
 </body>
 </html>
