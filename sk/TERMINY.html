@@ -30,6 +30,7 @@ form input[type="text"], form input[type="number"], form select { padding: 5px; 
 footer { background-color: black; color: white; padding: 15px 0; }
 footer a { color: white; margin: 0 10px; text-decoration: none; }
 footer a:hover { text-decoration: underline; }
+p.payment-note { font-size: 0.9em; color: red; }
 </style>
 </head>
 <body>
@@ -67,7 +68,10 @@ footer a:hover { text-decoration: underline; }
           <option value="muzi">Muž</option>
           <option value="zeny">Žena</option>
         </select><br>
-        <input type="submit" value="Registrovať (iba po zaplatení)">
+        <input type="submit" value="Registrovať">
+        <p class="payment-note">
+          ⚠️ Registrácia sa zapíše až po úspešnej platbe cez Stripe.
+        </p>
       </form>
     </div>
 
@@ -96,7 +100,10 @@ footer a:hover { text-decoration: underline; }
           <option value="muzi">Muž</option>
           <option value="zeny">Žena</option>
         </select><br>
-        <input type="submit" value="Registrovať (iba po zaplatení)">
+        <input type="submit" value="Registrovať">
+        <p class="payment-note">
+          ⚠️ Registrácia sa zapíše až po úspešnej platbe cez Stripe.
+        </p>
       </form>
     </div>
 
@@ -118,20 +125,19 @@ fetch("header.html")
     document.getElementById("header-placeholder").innerHTML = data;
   });
 
-// Firebase config
+// Zobrazenie voľných miest
 const firebaseConfig = {
   apiKey: "AIzaSyBWuOkOK_ViW3Byns3h5LdZ5NFrPjSo_jM",
   authDomain: "speeddatingslovakia.firebaseapp.com",
   databaseURL: "https://speeddatingslovakia-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "speeddatingslovakia",
-  storageBucket: "speeddatingslovakia.firebasestorage.app",
+  storageBucket: "speeddatingslovakia.firebasedatabase.app",
   messagingSenderId: "1085212330025",
   appId: "1:1085212330025:web:de6bccf7b2ddf28df8f438"
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// Zobrazenie voľných miest
 function loadSeats() {
   db.ref('volne_miesta_26_36').once('value').then(snapshot => {
     const data = snapshot.val() || { muzi: 8, zeny: 8 };
@@ -147,40 +153,11 @@ function loadSeats() {
 
 loadSeats();
 
-// Registrácia po platbe (overenie cez payments_{groupKey}_{gender})
+// Registrácia iba upozornenie (live režim)
 function setupForm(formId, groupKey) {
-  document.getElementById(formId).addEventListener('submit', async function(e){
+  document.getElementById(formId).addEventListener('submit', function(e){
     e.preventDefault();
-    const name = this.name.value.trim();
-    const surname = this.surname.value.trim();
-    const age = parseInt(this.age.value);
-    const gender = this.gender.value;
-
-    if(!name || !surname || !age || !gender) return;
-
-    const paymentRef = db.ref(`payments_${groupKey}_${gender}`);
-    const paymentSnapshot = await paymentRef.once('value');
-    const payments = paymentSnapshot.val() || {};
-
-    const hasPayment = Object.values(payments).some(p => p.paid);
-
-    if(!hasPayment) {
-      alert("Najprv je potrebné zaplatiť.");
-      return;
-    }
-
-    // Uloženie registrácie
-    const regRef = db.ref('registracie_' + groupKey);
-    await regRef.push({
-      name,
-      surname,
-      age,
-      gender,
-      timestamp: Date.now()
-    });
-
-    alert('✅ Registrácia úspešná!');
-    loadSeats();
+    alert("Registrácia bude zaznamenaná až po úspešnej platbe cez Stripe. Najprv prosím kliknite na tlačidlo platby a dokončite transakciu.");
     this.reset();
   });
 }
