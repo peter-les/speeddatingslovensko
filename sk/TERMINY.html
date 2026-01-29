@@ -4,106 +4,37 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TERMINY - Speed Dating Bratislava</title>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-
 <link rel="stylesheet" href="css/header.css">
-
 <style>
-body {
-  background-color: #4CAF50;
-  color: black;
-  text-align: center;
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
+body { background-color: #4CAF50; color: black; text-align: center; font-family: Arial, sans-serif; margin:0; padding:0; min-height:100vh; display:flex; flex-direction:column; }
 main { flex: 1; padding: 20px; }
-.flex-container { display: flex; justify-content: center; flex-wrap: wrap; gap: 40px; margin-bottom: 40px; }
-.column { background-color: #4CAF50; padding: 20px; border-radius: 10px; text-align: center; min-width: 250px; }
-button, form input[type="submit"] { margin-top: 10px; padding: 10px 15px; font-size: 1em; cursor: pointer; }
-.counter { font-weight: bold; margin-bottom: 10px; }
-form input[type="text"], form input[type="number"], form select { padding: 5px; margin: 5px 0; width: 90%; }
-form { display: none; margin-top: 15px; }
-footer { background-color: black; color: white; padding: 15px 0; }
-footer a { color: white; margin: 0 10px; text-decoration: none; }
-footer a:hover { text-decoration: underline; }
+.flex-container { display:flex; justify-content:center; flex-wrap:wrap; gap:40px; margin-bottom:40px; }
+.column { background-color: #4CAF50; padding: 20px; border-radius: 10px; text-align:center; min-width:250px; }
+a { display:block; margin:5px 0; font-weight:bold; color:black; text-decoration:none; }
+a:hover { text-decoration:underline; }
+p { font-weight:bold; }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <div id="header-placeholder"></div>
 
 <main>
   <h1>Nasledujúce termíny:</h1>
-
   <div class="flex-container">
 
-    <!-- 26-36 rokov -->
     <div class="column" id="group26_36">
       <h2>Veková skupina 26-36 rokov (piatok večer)</h2>
-      <div class="counter">
-        Muži voľné miesta: <span id="free_men_26_36">0</span><br>
-        Ženy voľné miesta: <span id="free_women_26_36">0</span>
-      </div>
-      <div style="margin: 15px 0;">
-        <strong>Dátum:</strong> 13.02.2026 <br>
-        <strong>Čas:</strong> 18:00 - 19:00<br>
-        <strong>Adresa:</strong> Zochova 6/8 <br>
-        <strong>Mesto:</strong> Bratislava
-      </div>
-
-      <!-- Live Stripe linky s parametrami -->
-      <a id="payment_26_36_men" href="https://buy.stripe.com/7sY00i66Pe8Z5Xd9h19EI03?groupKey=26_36&gender=muzi" target="_blank">Platba muži 9,9 €</a><br>
-      <a id="payment_26_36_women" href="https://buy.stripe.com/14AaEW9j16Gxadtctd9EI01?groupKey=26_36&gender=zeny" target="_blank">Platba ženy 3,9 €</a><br>
+      <a href="https://buy.stripe.com/7sY00i66Pe8Z5Xd9h19EI03?success_url=https://peter-les.github.io/speeddatingslovensko/sk/payment-success.html?session_id={CHECKOUT_SESSION_ID}&groupKey=26_36&gender=muzi" target="_blank">Platba muži 9,9 €</a>
+      <a href="https://buy.stripe.com/14AaEW9j16Gxadtctd9EI01?success_url=https://peter-les.github.io/speeddatingslovensko/sk/payment-success.html?session_id={CHECKOUT_SESSION_ID}&groupKey=26_36&gender=zeny" target="_blank">Platba ženy 3,9 €</a>
       <p>Registrácia nasleduje až po platbe.</p>
-      
-      <form id="form26_36">
-        <input type="text" name="name" placeholder="Krstné meno" required><br>
-        <input type="text" name="surname" placeholder="Priezvisko" required><br>
-        <input type="number" name="age" placeholder="Vek" required><br>
-        <select name="gender" required>
-          <option value="">Pohlavie</option>
-          <option value="muzi">Muž</option>
-          <option value="zeny">Žena</option>
-        </select><br>
-        <input type="submit" value="Registrovať">
-      </form>
     </div>
 
-    <!-- 36-46 rokov -->
     <div class="column" id="group36_46">
       <h2>Veková skupina 36-46 rokov (sobota večer)</h2>
-      <div class="counter">
-        Muži voľné miesta: <span id="free_men_36_46">0</span><br>
-        Ženy voľné miesta: <span id="free_women_36_46">0</span>
-      </div>
-      <div style="margin: 15px 0;">
-        <strong>Dátum:</strong> 14.02.2026<br>
-        <strong>Čas:</strong> 18:00 - 19:00<br>
-        <strong>Adresa:</strong> Zochova 6/8 <br>
-        <strong>Mesto:</strong> Bratislava
-      </div>
-
-      <a id="payment_36_46_men" href="https://buy.stripe.com/9B6bJ0br93ul3P52SD9EI02?groupKey=36_46&gender=muzi" target="_blank">Platba muži 9,9 €</a><br>
-      <a id="payment_36_46_women" href="https://buy.stripe.com/3cIeVc0Mvd4V5XdeBl9EI00?groupKey=36_46&gender=zeny" target="_blank">Platba ženy 9,9 €</a><br>
+      <a href="https://buy.stripe.com/9B6bJ0br93ul3P52SD9EI02?success_url=https://peter-les.github.io/speeddatingslovensko/sk/payment-success.html?session_id={CHECKOUT_SESSION_ID}&groupKey=36_46&gender=muzi" target="_blank">Platba muži 9,9 €</a>
+      <a href="https://buy.stripe.com/3cIeVc0Mvd4V5XdeBl9EI00?success_url=https://peter-les.github.io/speeddatingslovensko/sk/payment-success.html?session_id={CHECKOUT_SESSION_ID}&groupKey=36_46&gender=zeny" target="_blank">Platba ženy 9,9 €</a>
       <p>Registrácia nasleduje až po platbe.</p>
-
-      <form id="form36_46">
-        <input type="text" name="name" placeholder="Krstné meno" required><br>
-        <input type="text" name="surname" placeholder="Priezvisko" required><br>
-        <input type="number" name="age" placeholder="Vek" required><br>
-        <select name="gender" required>
-          <option value="">Pohlavie</option>
-          <option value="muzi">Muž</option>
-          <option value="zeny">Žena</option>
-        </select><br>
-        <input type="submit" value="Registrovať">
-      </form>
     </div>
 
   </div>
@@ -118,93 +49,9 @@ footer a:hover { text-decoration: underline; }
 
 <script src="js/header.js" defer></script>
 <script>
-fetch("header.html")
-  .then(response => response.text())
-  .then(data => {
-    document.getElementById("header-placeholder").innerHTML = data;
-  });
-
-// Firebase config
-const firebaseConfig = {
-  apiKey: "AIzaSyBWuOkOK_ViW3Byns3h5LdZ5NFrPjSo_jM",
-  authDomain: "speeddatingslovakia.firebaseapp.com",
-  databaseURL: "https://speeddatingslovakia-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "speeddatingslovakia",
-  storageBucket: "speeddatingslovakia.firebasestorage.app",
-  messagingSenderId: "1085212330025",
-  appId: "1:1085212330025:web:de6bccf7b2ddf28df8f438"
-};
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
-
-// Zobrazenie voľných miest
-function loadSeats() {
-  db.ref('volne_miesta_26_36').once('value').then(snapshot => {
-    const data = snapshot.val() || { muzi: 8, zeny: 8 };
-    document.getElementById('free_men_26_36').textContent = data.muzi;
-    document.getElementById('free_women_26_36').textContent = data.zeny;
-  });
-  db.ref('volne_miesta_36_46').once('value').then(snapshot => {
-    const data = snapshot.val() || { muzi: 8, zeny: 8 };
-    document.getElementById('free_men_36_46').textContent = data.muzi;
-    document.getElementById('free_women_36_46').textContent = data.zeny;
-  });
-}
-
-loadSeats();
-
-// Zobrazenie formulára len po platbe
-function showFormIfPaid(groupKey, gender) {
-  const sessionKey = `stripe_session_${groupKey}_${gender}`;
-  if(sessionStorage.getItem(sessionKey)) {
-    const form = document.getElementById(`form${groupKey.replace('_','_')}`);
-    form.style.display = 'block';
-  }
-}
-
-// Skontroluje obe pohlavia
-['26_36','36_46'].forEach(groupKey => {
-  ['muzi','zeny'].forEach(gender => {
-    showFormIfPaid(groupKey, gender);
-  });
+fetch("header.html").then(r=>r.text()).then(data=>{
+  document.getElementById("header-placeholder").innerHTML = data;
 });
-
-// Registrácia po platbe
-function setupForm(formId, groupKey) {
-  document.getElementById(formId).addEventListener('submit', async function(e){
-    e.preventDefault();
-    const name = this.name.value.trim();
-    const surname = this.surname.value.trim();
-    const age = parseInt(this.age.value);
-    const gender = this.gender.value;
-
-    if(!name || !surname || !age || !gender) return;
-
-    // Overenie platby podľa sessionStorage
-    const sessionKey = `stripe_session_${groupKey}_${gender}`;
-    if(!sessionStorage.getItem(sessionKey)) {
-      alert("Najprv je potrebné zaplatiť.");
-      return;
-    }
-
-    const regRef = db.ref('registracie_' + groupKey);
-    await regRef.push({
-      name,
-      surname,
-      age,
-      gender,
-      timestamp: Date.now()
-    });
-
-    alert('✅ Registrácia úspešná!');
-    loadSeats();
-    this.reset();
-  });
-}
-
-setupForm('form26_36', '26_36');
-setupForm('form36_46', '36_46');
 </script>
-
 </body>
 </html>
