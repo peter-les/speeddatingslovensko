@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DATES - Speed Dating Bratislava</title>
+<title>TERMS - Speed Dating Bratislava</title>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
-<link rel="stylesheet" href="../css/header.css">
+<link rel="stylesheet" href="css/header.css">
 
 <style>
 body {
@@ -24,44 +24,58 @@ body {
 main { flex: 1; padding: 20px; }
 .flex-container { display: flex; justify-content: center; flex-wrap: wrap; gap: 40px; margin-bottom: 40px; }
 .column { background-color: #4CAF50; padding: 20px; border-radius: 10px; text-align: center; min-width: 250px; }
-a { display: block; margin: 5px 0; font-weight: bold; color: black; text-decoration: none; }
-a:hover { text-decoration: underline; }
+a.payment-link { display: block; margin: 5px 0; font-weight: bold; color: red; text-decoration: none; }
+a.payment-link:hover { text-decoration: underline; }
 p { font-weight: bold; }
+.counter { font-weight: bold; margin-bottom: 10px; }
+footer { background-color: black; color: white; padding: 15px 0; }
+footer a { color: white; margin: 0 10px; text-decoration: none; }
+footer a:hover { text-decoration: underline; }
 </style>
 </head>
 <body>
 
+<!-- HEADER -->
 <div id="header-placeholder"></div>
 
 <main>
-  <h1>Upcoming Dates:</h1>
+  <h1>Upcoming Events:</h1>
+
   <div class="flex-container">
 
     <!-- 26-36 years -->
     <div class="column" id="group26_36">
-      <h2>Age Group 26-36 (Friday evening)</h2>
+      <h2>Age group 26-36 (Friday evening)</h2>
+      <div class="counter">
+        Free spots men: <span id="free_men_26_36">0</span><br>
+        Free spots women: <span id="free_women_26_36">0</span>
+      </div>
       <div style="margin: 15px 0;">
-        <strong>Date:</strong> 13.02.2026<br>
+        <strong>Date:</strong> 13.02.2026 <br>
         <strong>Time:</strong> 18:00 - 19:00<br>
-        <strong>Address:</strong> Zochova 6/8<br>
+        <strong>Address:</strong> Zochova 6/8 <br>
         <strong>City:</strong> Bratislava
       </div>
-      <a href="https://buy.stripe.com/7sY00i66Pe8Z5Xd9h19EI03" target="_blank">Pay Men €9.9</a>
-      <a href="https://buy.stripe.com/14AaEW9j16Gxadtctd9EI01" target="_blank">Pay Women €3.9</a>
+      <a id="payment_26_36_men" class="payment-link" href="https://buy.stripe.com/7sY00i66Pe8Z5Xd9h19EI03" target="_blank">Payment men €9.9</a>
+      <a id="payment_26_36_women" class="payment-link" href="https://buy.stripe.com/14AaEW9j16Gxadtctd9EI01" target="_blank">Payment women €3.9</a>
       <p>Registration follows after payment.</p>
     </div>
 
     <!-- 36-46 years -->
     <div class="column" id="group36_46">
-      <h2>Age Group 36-46 (Saturday evening)</h2>
+      <h2>Age group 36-46 (Saturday evening)</h2>
+      <div class="counter">
+        Free spots men: <span id="free_men_36_46">0</span><br>
+        Free spots women: <span id="free_women_36_46">0</span>
+      </div>
       <div style="margin: 15px 0;">
         <strong>Date:</strong> 14.02.2026<br>
         <strong>Time:</strong> 18:00 - 19:00<br>
-        <strong>Address:</strong> Zochova 6/8<br>
+        <strong>Address:</strong> Zochova 6/8 <br>
         <strong>City:</strong> Bratislava
       </div>
-      <a href="https://buy.stripe.com/9B6bJ0br93ul3P52SD9EI02" target="_blank">Pay Men €9.9</a>
-      <a href="https://buy.stripe.com/3cIeVc0Mvd4V5XdeBl9EI00" target="_blank">Pay Women €9.9</a>
+      <a id="payment_36_46_men" class="payment-link" href="https://buy.stripe.com/9B6bJ0br93ul3P52SD9EI02" target="_blank">Payment men €9.9</a>
+      <a id="payment_36_46_women" class="payment-link" href="https://buy.stripe.com/3cIeVc0Mvd4V5XdeBl9EI00" target="_blank">Payment women €9.9</a>
       <p>Registration follows after payment.</p>
     </div>
 
@@ -70,18 +84,18 @@ p { font-weight: bold; }
 
 <footer>
   <p>
-    <a href="../OBCHODNE_PODMIENKY.html">Terms & Conditions</a> |
-    <a href="../OCHRANA_OSOBNYCH_UDAJOV.html">Privacy Policy</a>
+    <a href="TERMS_CONDITIONS.html" style="color:white;">Terms & Conditions</a> |
+    <a href="PRIVACY_POLICY.html" style="color:white;">Privacy Policy</a>
   </p>
 </footer>
 
-<script src="../js/header.js" defer></script>
+<script src="js/header.js" defer></script>
 <script>
-fetch("../header.html")
-  .then(r => r.text())
-  .then(data => { document.getElementById("header-placeholder").innerHTML = data; });
+fetch("header.html").then(r => r.text()).then(data => {
+  document.getElementById("header-placeholder").innerHTML = data;
+});
 
-// Firebase config
+// Load free spots from Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyBWuOkOK_ViW3Byns3h5LdZ5NFrPjSo_jM",
   authDomain: "speeddatingslovakia.firebaseapp.com",
@@ -94,7 +108,21 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// Registration notice (only after payment on payment-success.html)
+function loadSeats() {
+  db.ref('volne_miesta_26_36').once('value').then(snapshot => {
+    const data = snapshot.val() || { muzi: 8, zeny: 8 };
+    document.getElementById('free_men_26_36').textContent = data.muzi;
+    document.getElementById('free_women_26_36').textContent = data.zeny;
+  });
+  db.ref('volne_miesta_36_46').once('value').then(snapshot => {
+    const data = snapshot.val() || { muzi: 8, zeny: 8 };
+    document.getElementById('free_men_36_46').textContent = data.muzi;
+    document.getElementById('free_women_36_46').textContent = data.zeny;
+  });
+}
+
+loadSeats();
 </script>
+
 </body>
 </html>
