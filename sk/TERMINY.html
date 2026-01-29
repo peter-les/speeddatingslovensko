@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TERMINY - Speed Dating Bratislava</title>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
 <link rel="stylesheet" href="css/header.css">
 
@@ -22,9 +24,10 @@ body {
 main { flex: 1; padding: 20px; }
 .flex-container { display: flex; justify-content: center; flex-wrap: wrap; gap: 40px; margin-bottom: 40px; }
 .column { background-color: #4CAF50; padding: 20px; border-radius: 10px; text-align: center; min-width: 250px; }
-a.payment-link { display:block; margin:5px 0; font-weight:bold; color:black; text-decoration:none; }
-a.payment-link:hover { text-decoration:underline; }
-p { font-weight:bold; }
+a.payment-link { display: block; margin: 5px 0; font-weight: bold; color: red; text-decoration: none; }
+a.payment-link:hover { text-decoration: underline; }
+p { font-weight: bold; }
+.counter { font-weight: bold; margin-bottom: 10px; }
 footer { background-color: black; color: white; padding: 15px 0; }
 footer a { color: white; margin: 0 10px; text-decoration: none; }
 footer a:hover { text-decoration: underline; }
@@ -43,28 +46,36 @@ footer a:hover { text-decoration: underline; }
     <!-- 26-36 rokov -->
     <div class="column" id="group26_36">
       <h2>Veková skupina 26-36 rokov (piatok večer)</h2>
+      <div class="counter">
+        Muži voľné miesta: <span id="free_men_26_36">0</span><br>
+        Ženy voľné miesta: <span id="free_women_26_36">0</span>
+      </div>
       <div style="margin: 15px 0;">
         <strong>Dátum:</strong> 13.02.2026 <br>
         <strong>Čas:</strong> 18:00 - 19:00<br>
         <strong>Adresa:</strong> Zochova 6/8 <br>
         <strong>Mesto:</strong> Bratislava
       </div>
-      <a class="payment-link" id="payment_26_36_men" href="https://buy.stripe.com/7sY00i66Pe8Z5Xd9h19EI03" target="_blank">Platba muži 9,9 €</a>
-      <a class="payment-link" id="payment_26_36_women" href="https://buy.stripe.com/14AaEW9j16Gxadtctd9EI01" target="_blank">Platba ženy 3,9 €</a>
+      <a id="payment_26_36_men" class="payment-link" href="https://buy.stripe.com/7sY00i66Pe8Z5Xd9h19EI03" target="_blank">Platba muži 9,9 €</a>
+      <a id="payment_26_36_women" class="payment-link" href="https://buy.stripe.com/14AaEW9j16Gxadtctd9EI01" target="_blank">Platba ženy 3,9 €</a>
       <p>Registrácia nasleduje až po platbe.</p>
     </div>
 
     <!-- 36-46 rokov -->
     <div class="column" id="group36_46">
       <h2>Veková skupina 36-46 rokov (sobota večer)</h2>
+      <div class="counter">
+        Muži voľné miesta: <span id="free_men_36_46">0</span><br>
+        Ženy voľné miesta: <span id="free_women_36_46">0</span>
+      </div>
       <div style="margin: 15px 0;">
         <strong>Dátum:</strong> 14.02.2026<br>
         <strong>Čas:</strong> 18:00 - 19:00<br>
         <strong>Adresa:</strong> Zochova 6/8 <br>
         <strong>Mesto:</strong> Bratislava
       </div>
-      <a class="payment-link" id="payment_36_46_men" href="https://buy.stripe.com/9B6bJ0br93ul3P52SD9EI02" target="_blank">Platba muži 9,9 €</a>
-      <a class="payment-link" id="payment_36_46_women" href="https://buy.stripe.com/3cIeVc0Mvd4V5XdeBl9EI00" target="_blank">Platba ženy 9,9 €</a>
+      <a id="payment_36_46_men" class="payment-link" href="https://buy.stripe.com/9B6bJ0br93ul3P52SD9EI02" target="_blank">Platba muži 9,9 €</a>
+      <a id="payment_36_46_women" class="payment-link" href="https://buy.stripe.com/3cIeVc0Mvd4V5XdeBl9EI00" target="_blank">Platba ženy 9,9 €</a>
       <p>Registrácia nasleduje až po platbe.</p>
     </div>
 
@@ -80,9 +91,37 @@ footer a:hover { text-decoration: underline; }
 
 <script src="js/header.js" defer></script>
 <script>
-fetch("header.html").then(r=>r.text()).then(data=>{
+fetch("header.html").then(r => r.text()).then(data => {
   document.getElementById("header-placeholder").innerHTML = data;
 });
+
+// Zobrazenie voľných miest (bez formulára – ten sa zobrazí až na payment-success.html)
+const firebaseConfig = {
+  apiKey: "AIzaSyBWuOkOK_ViW3Byns3h5LdZ5NFrPjSo_jM",
+  authDomain: "speeddatingslovakia.firebaseapp.com",
+  databaseURL: "https://speeddatingslovakia-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "speeddatingslovakia",
+  storageBucket: "speeddatingslovakia.firebasestorage.app",
+  messagingSenderId: "1085212330025",
+  appId: "1:1085212330025:web:de6bccf7b2ddf28df8f438"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+function loadSeats() {
+  db.ref('volne_miesta_26_36').once('value').then(snapshot => {
+    const data = snapshot.val() || { muzi: 8, zeny: 8 };
+    document.getElementById('free_men_26_36').textContent = data.muzi;
+    document.getElementById('free_women_26_36').textContent = data.zeny;
+  });
+  db.ref('volne_miesta_36_46').once('value').then(snapshot => {
+    const data = snapshot.val() || { muzi: 8, zeny: 8 };
+    document.getElementById('free_men_36_46').textContent = data.muzi;
+    document.getElementById('free_women_36_46').textContent = data.zeny;
+  });
+}
+
+loadSeats();
 </script>
 
 </body>
