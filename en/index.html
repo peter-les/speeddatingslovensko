@@ -1,65 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Speed Dating Slovakia</title>
-  <!-- CSS -->
-  <style>
-    body {
-      background-color: #4CAF50;
-      color: black;                              <! FARBA TEXTU -->
-      text-align: center;
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-    h1, h2, p, ul, li {
-      text-align: center;
-    }
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-    a {
-      color: blue;                                <! FARBA LINKOV -->
-      text-decoration: none;
-      margin: 0 10px;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Speed Dating Slovakia</title>
 
-    nav {
+<link rel="stylesheet" href="css/header.css">
+
+<style>
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #4CAF50;
+  font-family: Arial, sans-serif;
   text-align: center;
-  margin: 20px 0; /* optional spacing */
-    }
-    
-    img {
-      width: 200px;
-      height: auto;
-      display: block;
-      margin: 20px auto;
-      border-radius: 10px;
-    }
-  </style>
+  color: black;
+}
+
+main {
+  flex: 1;
+  padding: 30px;
+}
+
+footer {
+  background-color: black;
+  color: white;
+  padding: 15px 0;
+}
+
+footer a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+</style>
 </head>
+
 <body>
 
-<div style="text-align:right;">
-  <a href="./">English</a> | <a href="../sk/">Slovensky</a>
+<!-- HEADER -->
+<div id="header-placeholder"></div>
+
+<main>
+
+<h1>THE CHEAPEST SPEED DATING IN BRATISLAVA!</h1>
+
+<div style="text-align: center;">
+  <div style="display: inline-block; text-align: left; font-size: 20px;">
+    Women: €3.9 (ages 26-36) or €9.9 (ages 36-46).<br>
+    Men: €9.9 (ages 26-36 and 36-46).
+  </div>
 </div>
-<hr>
 
-<h1>Welcome to Speed Dating Slovakia</h1>
+<div style="margin-top: 20px;">
+  <img src="../images/UvodnyObrazok5.png" alt="Intro image" style="max-width: 250px; height: auto;">
+</div>
 
-<nav>
-  <a href="about.html">About Us</a> |
-  <a href="dates.html">Meeting Dates</a> 
-  <!--  <a href="contact.html">Contact</a> -->
-</nav>
+</main>
 
-<p>Here you can find (in the near future) the cheapest speed dating events in Slovakia! 
-</p>
+<footer>
+  <p>
+    <a href="TERMS_AND_CONDITIONS.html">Terms and Conditions</a> |
+    <a href="PRIVACY_POLICY.html">Privacy Policy</a>
+  </p>
+</footer>
+
+<script src="js/header.js" defer></script>
+<script>
+fetch("header.html")
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById("header-placeholder").innerHTML = data;
+  });
+</script>
 
 </body>
 </html>
