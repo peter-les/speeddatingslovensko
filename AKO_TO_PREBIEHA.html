@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AKO TO PREBIEHA</title>
+
+<link rel="stylesheet" href="css/header.css">
+
+<style>
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #4CAF50;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  color: black;
+}
+
+main {
+  flex: 1;
+  padding: 30px;
+}
+
+ul {
+  list-style-type: disc;
+  padding-left: 40px;
+  text-align: left;
+  display: inline-block;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+footer {
+  background-color: black;
+  color: white;
+  padding: 15px 0;
+}
+
+footer a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div id="header-placeholder"></div>
+
+<main>
+
+<h1>Čo je speed dating?</h1>
+
+<ul>
+<li>Speed dating sú zoznamovacie večery pri ktorých sa zoznamujete osobne so všetkými osobami opačného pohlavia, ktoré na zoznamovací večer prídu.</li>
+<li>U nás to zatiaľ spravidla 4 až 8 ľudí opačného pohlavia (ten počet sa v prípade reálneho záujmu navýši).</li>
+<li> Za 1 zoznamovací večer tak môžete osobne spoznať až okolo 8-12 single polovičiek. Bez dlhého dopisovania, bez pretvárky.</li>
+<li>Po krátkom čase osobného rozhovoru vo dvojici sa musíte rozhodnút či sa s danou osobou chcete v budúcnosti ešte stretnúť.</li>
+<li>Ak áno, zapíšte to na papier a v prípade zhody Vám moderátor po skončení večera obidvom pošle kontakty aby ste ďalej mohli stretávať už samostatne.</li>
+</ul>
+
+<h1>Ako to u nás prebieha?</h1>
+
+<ul>
+<li>Na začiatku Vás privíta moderátor/organizátor, ktorým sa spýta na Vaše krstné meno.<br>
+(v prípade viacnásobnej zhody aj na priezvisko)</li>
+<li>Dostanete papier s Vaším krstným menom, ktorý si nosíte so sebou počas celého večera.<br>
+(na poznámky, ktoré si chcete odniesť domov si prineste vlastný papier)</li>
+<li>Perá sú pripravené na ôsmich stoloch.</li>
+<li>Ženy si sadnú k stolom a muži oproti nim.</li>
+<li>Po 6 minútach zazvoní zvonec a chlapi sa presunú o jedno miesto vedľa.</li>
+<li>Máte teda 6 minút na rozhodnutie či sa s danou osobou chcete v budúcnosti stretnúť.</li>
+<li>Mená tých s ktorými sa v budúcnosti chcete stretnúť zapisujete na papier.</li>
+<li>Papiere moderátor na konci večera pozbiera.</li>
+<li>Po skončení večera Vám moderátor pri zhode mien obidvom pošle kontakty.</li>
+</ul>
+
+<ul>
+<li>Minimálny počet párov aby sa akcia konala je 4 páry.  <br>
+V prípade nenaplnenia tohto počtu sa Vaša rezervácia presunie na nasledujúci termín alebo (ak nám to napíšete) sa Vám vratia
+peniaze na Váš účet.</li>
+</ul>
+</main>
+
+<footer>
+  <p>
+    <a href="OBCHODNE_PODMIENKY.html">Obchodné podmienky</a> |
+    <a href="OCHRANA_OSOBNYCH_UDAJOV.html">Ochrana osobných údajov</a>
+  </p>
+</footer>
+
+<script src="js/header.js" defer></script>
+<script>
+fetch("header.html")
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById("header-placeholder").innerHTML = data;
+  });
+</script>
+
+</body>
+</html>

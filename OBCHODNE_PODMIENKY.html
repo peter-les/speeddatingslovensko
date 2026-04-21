@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Obchodné podmienky</title>
+
+<link rel="stylesheet" href="css/header.css">
+
+<style>
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #4CAF50;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  color: black;
+}
+
+main {
+  flex: 1;
+  padding: 30px;
+}
+
+footer {
+  background-color: black;
+  color: white;
+  padding: 15px 0;
+}
+
+footer a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div id="header-placeholder"></div>
+
+<main>
+<h1>Obchodné podmienky</h1>
+
+<p>Prevádzkovateľ organizuje zoznamovacie podujatia – speed dating.</p>
+
+<p>Registráciou na podujatie účastník súhlasí s týmito podmienkami.</p>
+
+<p>Platba za podujatie je nevratná, pokiaľ nie je podujatie zrušené zo strany organizátora.</p>
+
+<p>Organizátor nezodpovedá za správanie účastníkov počas podujatia.</p>
+
+<p>Účasť na podujatí je dobrovoľná.</p>
+
+<p>Tieto podmienky sú platné od dátumu zverejnenia.</p>
+</main>
+
+<footer>
+  <p>
+    <a href="OBCHODNE_PODMIENKY.html">Obchodné podmienky</a> |
+    <a href="OCHRANA_OSOBNYCH_UDAJOV.html">Ochrana osobných údajov</a>
+  </p>
+</footer>
+
+<script src="js/header.js" defer></script>
+<script>
+fetch("header.html")
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById("header-placeholder").innerHTML = data;
+  });
+</script>
+
+</body>
+</html>
