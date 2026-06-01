@@ -25,7 +25,6 @@ header {
 
 nav {
   margin-left: auto;
-  margin-right: 20px;
 }
 
 nav a {
@@ -39,28 +38,11 @@ nav a:hover {
   text-decoration: underline;
 }
 
-/* Pravá časť headera */
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.lang-switch {
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 16px;
-}
-
-.lang-switch:hover {
-  text-decoration: underline;
-}
-
 .hamburger {
   display: none;
   font-size: 28px;
   cursor: pointer;
+  margin-left: auto;
 }
 
 /* MOBILE */
@@ -75,7 +57,6 @@ nav a:hover {
     background-color: black;
     text-align: center;
     padding: 15px 0;
-    margin-right: 0;
   }
 
   nav a {
@@ -90,9 +71,6 @@ nav a:hover {
 
   .hamburger {
     display: block;
-  }
-
-  .header-right {
-    margin-left: auto;
+    margin-right: 50px; /* posunie hamburger doľava od EN */
   }
 }
