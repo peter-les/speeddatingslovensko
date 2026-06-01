@@ -1,14 +1,13 @@
-<header style="position: relative;">
+<header>
+
   <div class="logo">
-    <img src="../images/List.png" alt="Logo">
+    <img src="images/List.png" alt="Logo">
     <div class="logo-text">
       Petrova Zoznamka
     </div>
   </div>
 
-  <div class="hamburger" onclick="toggleMenu()">☰</div>
-
-  <nav id="menu" style="margin-right: 60px;"> <!-- Posunuté mierne doľava, aby sa EN nezakryl -->
+  <nav id="menu">
     <a href="index.html">Domov</a>
     <a href="AKO_TO_PREBIEHA.html">Ako to prebieha?</a>
     <a href="TERMINY.html">Termíny</a>
@@ -16,8 +15,12 @@
     <a href="KONTAKT.html">Kontakt</a>
   </nav>
 
-  <!-- EN language button -->
-  <a href="../en/index.html" style="position:absolute; right:20px; top:50%; transform: translateY(-50%); color:white; text-decoration:none; font-weight:bold;">
-    EN
-  </a>
+  <div class="header-right">
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+
+    <a href="/en/index.html" class="lang-switch">
+      EN
+    </a>
+  </div>
+
 </header>
